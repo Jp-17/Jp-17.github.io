@@ -10,6 +10,7 @@ name: Peng Jiang
 title: PhD student in Tsinghua University
 email: jiang-p21@mails.tsinghua.edu.cn
 website: https://jp-17.github.io/
+wechat: jp21_bird
 
 # Dark Mode (true/false/never)
 darkmode: false
@@ -52,7 +53,7 @@ about_content: | # this will include new lines to allow paragraphs
   
   My research interests include lifelong learning, task compositionality, generalization, neural representation & representation alignment. 
   
-  I am curious about how can the intelligent systems (brain & AI) retain learned knowledge from previous tasks and use it to help future learning. To further understand this, I am currently working on studying task representation change during lifelong learning in the view of task compositionality. I will study task representation in weight space and representation space in different leaning systems, including brain, pre-trained model and RNN.
+  I am curious about how can the intelligent systems (brain & AI) retain learned knowledge from previous tasks and use it to help future learning. To further understand this, I am currently working on studying task representation change during lifelong learning in the view of task compositionality. 
 
 content:
 
@@ -89,7 +90,7 @@ content:
         quote: >
           This is probably one of the greatest apps ever created, if you don't agree you're probably wrong.
         description: | # this will include new lines to allow paragraphs
-          I started this project as a way if learning <mark>React</mark> and it has since grown into a fully fledged app. I have learned many skills through this and been I'm very proud of having this in my portfolio. If you don't have a project as awesome as this I would advise you make one.
+          I will study task representation in weight space and representation space in different leaning systems, including brain, pre-trained model and RNN.
 
 
   - title: Experience # Title for the section
