@@ -98,12 +98,30 @@ content:
         quote: >
           To discover the essence of intelligence, abstraction and generalization.
         description: | # this will include new lines to allow paragraphs
-          ![project](images/resized_proj.png "project")
-          I will study task representation in weight 
           <p align="center">
             <img src="images/proj.png" alt="proj" style="width: 400px; height: auto;">
           </p>
-          I will study task representation in weight space and representation space in different leaning systems, including brain, pre-trained model and RNN.
+          - I will study task representation in weight space and representation space in different leaning systems, including brain, pre-trained model and RNN.
+          - How task representation change in both brain and neural network during lifelong learning?
+          - How to bridge task representation in parameter space and representation space?
+          - How similar task representation change is in brain and neural network?  
+
+          <table>
+            <tr>
+              <!-- Image in the left cell -->
+              <td>
+                <img src="images/proj.png" alt="proj" style="width: 400px; height: auto;">
+              </td>
+              
+              <!-- Content in the right cell -->
+              <td>
+                - I will study task representation in weight space and representation space in different leaning systems, including brain, pre-trained model and RNN.
+                - How task representation change in both brain and neural network during lifelong learning?
+                - How to bridge task representation in parameter space and representation space?
+                - How similar task representation change is in brain and neural network? 
+              </td>
+            </tr>
+          </table>
 
   - title: Experience # Title for the section
     layout: list # Type of content section (list/text)
