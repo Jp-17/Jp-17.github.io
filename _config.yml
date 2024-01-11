@@ -85,21 +85,22 @@ content:
     layout: list # Type of content section (list/text)
     content:
       - layout: top-middle
-        title: Super awesome project
-        link: github.com/sproogen
+        title: Task Representation Project
+        # link: github.com/sproogen
         # link_text: Project Website
-        additional_links:
-          - title:  sproogen/modern-resume-theme
-            icon: fab fa-github
-            url: github.com/sproogen/modern-resume-theme
+        # additional_links:
+        #   - title:  sproogen/modern-resume-theme
+        #     icon: fab fa-github
+        #     url: github.com/sproogen/modern-resume-theme
           # - title:  Github page for project (eg. sproogen/modern-resume-theme)
           #   icon: fab fa-github
           #   url: Link to project (eg. sproogen.github.io/modern-resume-theme)
         quote: >
-          This is probably one of the greatest apps ever created, if you don't agree you're probably wrong.
+          To discover the essence of intelligence, abstraction and generalization.
         description: | # this will include new lines to allow paragraphs
           I will study task representation in weight space and representation space in different leaning systems, including brain, pre-trained model and RNN.
-
+          ![project](images/proj.png "project")
+          ight space and 
 
   - title: Experience # Title for the section
     layout: list # Type of content section (list/text)
