@@ -104,9 +104,11 @@ content:
             <img src="images/proj.png" alt="proj" style="width: 400px; height: auto;">
           </div>
 
-          To understand knowledge update and reuse in lifelong learning, we have to understand how knowledge represent in learning systems. We can study task representation in both parameter space and representation space. Besides, we could 
-          - I will study task representation in weight space and representation space in different leaning systems, including brain, pre-trained model and RNN.
-          - How task representation change in both brain and neural network during lifelong learning?
+          To understand knowledge update and reuse in lifelong learning, we have to understand how knowledge represent of task relatedness in learning systems. 
+          We can study task relatedness representation in both parameter space and representation space. 
+          Here I will focus on weight disentanglement in parameter space and feature disentanglement in representation space to understand task relatedness representation. 
+
+          - How task representation change in both brain and neural network (pre-trained model, RNN) during lifelong learning?
           - How to bridge task representation in parameter space and representation space?
           - How similar task representation change is in brain and neural network?  
 
