@@ -131,14 +131,19 @@ content:
     layout: text
     content: | # this will include new lines to allow paragraphs
       Some of my other interests are:
+
+      Explore knowledge
+      - consciousness
+      - world model
+      - mind reading (neural decoding)
+
+      Enjoy life
       - Tennis
       - Skiing
       - Photography
 
-      Explore knowledge and Enjoy life 
-      
       <div style="text-align: center;">
-        <img src="images/skiing.jpg" alt="skiing" style="width: 800px; height: auto;">
+        <img src="images/skiing.jpg" alt="skiing" style="width: 500px; height: auto;">
       </div>
 
 # Footer
