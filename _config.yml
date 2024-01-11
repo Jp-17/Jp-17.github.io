@@ -98,47 +98,17 @@ content:
           #   icon: fab fa-github
           #   url: Link to project (eg. sproogen.github.io/modern-resume-theme)
         quote: >
-          To discover the essence of intelligence, abstraction and generalization.
+          Discover the essence of intelligence, abstraction and generalization.
         description: | # this will include new lines to allow paragraphs
           <div style="text-align: center;">
             <img src="images/proj.png" alt="proj" style="width: 400px; height: auto;">
           </div>
 
+          To understand knowledge update and reuse in lifelong learning, we have to understand how knowledge represent in learning systems. We can study task representation in both parameter space and representation space. Besides, we could 
           - I will study task representation in weight space and representation space in different leaning systems, including brain, pre-trained model and RNN.
           - How task representation change in both brain and neural network during lifelong learning?
           - How to bridge task representation in parameter space and representation space?
           - How similar task representation change is in brain and neural network?  
-
-          <div style="display: flex; align-items: center;">
-            <div style="flex: 0 0 auto; width: 40%; margin-right: 20px;">
-              <img src="images/proj.png" alt="proj" style="width: 400px; height: auto;">
-            </div>
-            <div style="flex: 1;">
-              - I will study task representation in weight space and representation space in different leaning systems, including brain, pre-trained model and RNN.
-              - How task representation change in both brain and neural network during lifelong learning?
-              - How to bridge task representation in parameter space and representation space?
-              - How similar task representation change is in brain and neural network?
-            </div>
-          </div>
-
-
-
-          <table>
-            <tr>
-              <!-- Image in the left cell -->
-              <td>
-                <img src="images/proj.png" alt="proj" style="width: 400px; height: auto;">
-              </td>
-              
-              <!-- Content in the right cell -->
-              <td>
-                - I will study task representation in weight space and representation space in different leaning systems, including brain, pre-trained model and RNN.
-                - How task representation change in both brain and neural network during lifelong learning?
-                - How to bridge task representation in parameter space and representation space?
-                - How similar task representation change is in brain and neural network? 
-              </td>
-            </tr>
-          </table>
 
   - title: Experience # Title for the section
     layout: list # Type of content section (list/text)
