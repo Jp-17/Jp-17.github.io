@@ -6,14 +6,14 @@ favicon: images/favicon.ico
 version: 2
 
 # Personal info
-name: Peng Jiang
+name: Peng Jiang (蒋 鹏)
 title: PhD student in Tsinghua University
 email: jiang-p21@mails.tsinghua.edu.cn
 website: https://jp-17.github.io/
 wechat: jp21_bird
 
 # Dark Mode (true/false/never)
-darkmode: false
+darkmode: never
 
 # Social links
 twitter_username: jiangp21
