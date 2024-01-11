@@ -65,7 +65,7 @@ content:
         caption: 2021 - now
         sub_title: PhD candicate, Computational Neuroscience
         description: | # this will include new lines to allow paragraphs
-          I am supervised by Prof. Xiaoxuan Jia in [neural coding lab](https://jiaxx.github.io/). 
+          I am supervised by Prof. Xiaoxuan Jia in [Neural coding lab](https://jiaxx.github.io/). 
           In Jiaxx lab, I have explored different topics: visual coding, dimensionality reduction, neural dynamics, communication subspace across brain areas, RNN etc.
           Now I'm foucsing on understanding task representation change during lifelong learning in the view of task compositionality. 
         quote: >
@@ -79,9 +79,9 @@ content:
         #   Established in 1636, Harvard is the oldest higher education institution in the United States, and is widely regarded in terms of its influence, reputation, and academic pedigree as a leading university in not just the US but also the world.
         
         description: | # this will include new lines to allow paragraphs
-          In [Wei Zhang lab](https://life.tsinghua.edu.cn/info/1035/1267.htm), I have ever studied neural mechanism of social space behaviour of drosophila and tried to develop a new tools for inhibiting function of single synapse.
+          In [Wei Zhang lab](https://life.tsinghua.edu.cn/info/1035/1267.htm), I studied neural mechanism of social space behaviour of drosophila and tried to develop a new tools for inhibiting function of single synapse.
 
-          In [Bo Hong lab](http://neuro.med.tsinghua.edu.cn/), I completed my undergraduate thesis project, "Construct spiking neural network model for information exchange between the hippocampus and the temporal lobe".
+          In [Bo Hong lab](http://neuro.med.tsinghua.edu.cn/), I completed my undergraduate thesis project, "Construct spiking neural network model for information communication between the hippocampus and the temporal lobe".
 
   - title: Projects # Title for the section
     layout: list # Type of content section (list/text)
@@ -130,14 +130,15 @@ content:
   - title: A Little More About Me
     layout: text
     content: | # this will include new lines to allow paragraphs
-      Alongside my interests in networks and software engineering some of my other interests and hobbies are:
-      - Rock climbing
-      - Gaming
-      - Knitting
-      - [Becoming a ninja](https://www.youtube.com/watch?v=vtg4o__aRMg)
+      Some of my other interests are:
+      - Tennis
+      - Skiing
+      - Photography
 
-      Look at this cool image  
-      ![Trees](/modern-resume-theme/images/landscape-trees.jpg "Trees")
+      Both explore knowledge and enjoy life are important.
+      <div style="text-align: center;">
+        <img src="images/skiing.jpg" alt="skiing" style="width: 800px; height: auto;">
+      </div>
 
 # Footer
 footer_show_references: true
