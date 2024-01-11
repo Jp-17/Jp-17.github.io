@@ -98,7 +98,7 @@ content:
         quote: >
           To discover the essence of intelligence, abstraction and generalization.
         description: | # this will include new lines to allow paragraphs
-          ![project](images/resize_proj.png "project")
+          ![project](images/resized_proj.png "project")
 
           I will study task representation in weight space and representation space in different leaning systems, including brain, pre-trained model and RNN.
 
