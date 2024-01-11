@@ -143,31 +143,15 @@ content:
   #           Every company needs its networks properly administered and The Boring Compay is no exception. Digging holes is hard and I play my part making sure the whole company stays connected. I lead a team of 5 people and enjoy driving the company to try new technologies.
 
 
-  - title: A Little More About Me
+  - title: Some Other Intersts
     layout: text
     content: | # this will include new lines to allow paragraphs
-      Some of my other interests are:
-
-      Explore knowledge
-      - consciousness
-      - world model
-      - mind reading (neural decoding)
-
-      Enjoy life
-      - Tennis
-      - Skiing
-      - Photography
-
-      <div style="text-align: center;">
-        <img src="images/skiing.jpg" alt="skiing" style="width: 500px; height: auto;">
-      </div>
-
 
       <table>
         <tr>
           <!-- Image in the left cell -->
-          <td>
-            <img src="images/skiing.jpg" alt="skiing" style="width: 200px; height: auto;">
+          <td style="vertical-align: middle; text-align: center;">
+            <img src="images/skiing.jpg" alt="skiing" style="width: 300px; height: auto;">
           </td>
           
           <!-- Content in the right cell with increased font size -->
@@ -194,7 +178,7 @@ content:
 
 # Footer
 footer_show_references: true
-references_title: Computational Neuroscience
+references_title: Neural Coding Lab
 
 # Build settings
 remote_theme: sproogen/resume-theme
