@@ -167,22 +167,27 @@ content:
         <tr>
           <!-- Image in the left cell -->
           <td>
-            <img src="images/skiing.jpg" alt="skiing" style="width: 500px; height: auto;">
+            <img src="images/skiing.jpg" alt="skiing" style="width: 200px; height: auto;">
           </td>
           
           <!-- Content in the right cell with increased font size -->
-          <td style="font-size: 20px;"> <!-- Adjust the pixel size as needed -->
-            Some of my other interests are:
-
-            Explore knowledge
-            - consciousness
-            - world model
-            - mind reading (neural decoding)
-
-            Enjoy life
-            - Tennis
-            - Skiing
-            - Photography
+          <td style="font-size: 10px;"> <!-- Adjust the pixel size as needed -->
+            <ul>
+              <li><strong>Explore knowledge</strong>
+                <ul>
+                  <li>Consciousness</li>
+                  <li>World Model</li>
+                  <li>Mind Reading (Neural Decoding)</li>
+                </ul>
+              </li>
+              <li><strong>Enjoy life</strong>
+                <ul>
+                  <li>Tennis</li>
+                  <li>Skiing</li>
+                  <li>Photography</li>
+                </ul>
+              </li>
+            </ul>
           </td>
         </tr>
       </table>
