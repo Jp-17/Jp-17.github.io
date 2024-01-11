@@ -125,15 +125,15 @@ content:
         # quote: >
         #   Solving 21st century problems by diging holes and making game changing products like the *not a flamethrower*
         description: | # this will include new lines to allow paragraphs
-            [Computational Neuroscience](https://compneuro.neuromatch.io/tutorials/intro.html) July 2022
+            - [Computational Neuroscience](https://compneuro.neuromatch.io/tutorials/intro.html) July 2022
 
-            I have learned the basic knowledge of computational neuroscience and how to use it to understand the brain.
-            Besides, we have a group project to study "Hidden state dynamics in visual cortex and motor cortex using steinmetz dataset".
+              - I have learned the basic knowledge of computational neuroscience and how to use it to understand the brain.
+              Besides, we have a group project to study "Hidden state dynamics in visual cortex and motor cortex using steinmetz dataset".
 
-            [Deep learning](https://deeplearning.neuromatch.io/tutorials/intro.html) July 2023
+            - [Deep learning](https://deeplearning.neuromatch.io/tutorials/intro.html) July 2023
 
-            I have learned the basic knowledge of deep learning and how to use it to solve real world problems.
-            Besides, we have a group project to study "Exploring representational similarity between brain and LLM".
+              - I have learned the basic knowledge of deep learning and how to use it to solve real world problems.
+              Besides, we have a group project to study "Exploring representational similarity between brain and LLM".
 
       - layout: left
         title: Neural Coding Lab
