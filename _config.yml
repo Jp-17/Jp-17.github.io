@@ -53,7 +53,7 @@ about_content: | # this will include new lines to allow paragraphs
   
   My research interests include lifelong learning, task compositionality, generalization, neural representation & representation alignment. 
   
-  I am curious about how can the intelligent systems (brain & AI) retain learned knowledge from previous tasks and use it to help future learning. To further understand this, I am currently working on studying task representation change during lifelong learning in the view of task compositionality. 
+  I am curious about how can the intelligent systems (brain & AI) retain learned knowledge from previous tasks and use it to help future learning. To further understand this, I am currently working on studying task representation change during lifelong learning in the view of task compositionality. I will also explore the representation alignment between different learning systems (brain, pre-trained model and RNN).
 
 content:
 
@@ -61,17 +61,25 @@ content:
     layout: list # Type of content section (list/text)
     content:
       - layout: left
-        title: Harvard University
-        caption: 2010 - 2013
-        sub_title: BSc Computer Science
-        quote: >
-          Established in 1636, Harvard is the oldest higher education institution in the United States, and is widely regarded in terms of its influence, reputation, and academic pedigree as a leading university in not just the US but also the world.
+        title: Tsinghua University
+        caption: 2021 - now
+        sub_title: PhD candicate, Computational Neuroscience
         description: | # this will include new lines to allow paragraphs
-          During my time at Harvard I learnt most of my key skills that have I have taken through my career such as teamwork and working to tight deadlines. I thouroughly enjoyed my time as university and learnt a lot about a healthy work life balance.
+          I am supervised by Prof. Xiaoxuan Jia in [neural coding lab](https://jiaxx.github.io/).
+        quote: >
+          At the neural coding lab, we seek to understand how information is represented and processed in the brain to support flexible perception and behavior. Our research lies at the intersection of neuroscience, machine learning and psychology.
+        
+      - layout: left
+        title: Tsinghua University
+        caption: 2017 - 2021
+        sub_title: BSc, Major in Life Sciences, Minor in Computer Science
+        # quote: >
+        #   Established in 1636, Harvard is the oldest higher education institution in the United States, and is widely regarded in terms of its influence, reputation, and academic pedigree as a leading university in not just the US but also the world.
+        
+        description: | # this will include new lines to allow paragraphs
+          In [Wei Zhang lab](https://life.tsinghua.edu.cn/info/1035/1267.htm), I have ever studied neural mechanism of social space behaviour of drosophila and tried to develop a new tools for inhibiting function of single synapse.
 
-          I spent a lot of my free time as a committee member of the *Harvard Mountaineering Club* taking on roles such as *Trip Secretary* and *Vice-President*.
-
-
+          In [Bo Hong lab](http://neuro.med.tsinghua.edu.cn/), I completed my undergraduate thesis project, "Construct spiking neural network model for information exchange between the hippocampus and the temporal lobe".
 
   - title: Projects # Title for the section
     layout: list # Type of content section (list/text)
