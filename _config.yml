@@ -51,9 +51,9 @@ about_profile_image: images/me1.jpg
 about_content: | # this will include new lines to allow paragraphs
   Hi, I am Peng Jiang, a PhD student in Tsinghua University, Beijing, China. 
   
-  My research interests include lifelong learning, task compositionality, generalization, neural representation & representation alignment. 
+  My research interests include multitask learning & lifelong learning, task compositionality & generalization, neural representation & representation alignment, brain & RNN & LLM. 
   
-  I am curious about how can the intelligent systems (brain & AI) retain learned knowledge from previous tasks and use it to help future learning. To further understand this, I am currently working on studying task representation change during lifelong learning in the view of task compositionality. I will also explore the representation alignment between different learning systems (brain, pre-trained model and RNN).
+  I am curious about how can the intelligent systems (brain & AI) retain learned knowledge from previous tasks and use it to help future learning. To further understand this, I am currently working on studying task representation change during lifelong learning in the view of task compositionality. I will also explore the representation alignment between different learning systems (brain, RNN and LLM).
 
 content:
 
@@ -108,7 +108,7 @@ content:
           We can study task relatedness representation in both parameter space and representation space. 
           Here I will focus on weight disentanglement in parameter space and feature disentanglement in representation space to understand task relatedness representation. 
 
-          - How task representation change in both brain and neural network (pre-trained model, RNN) during lifelong learning?
+          - How task representation change in both brain and neural network (RNN, LLM) during lifelong learning?
           - How to bridge task representation in parameter space and representation space?
           - How similar task representation change is in brain and neural network?  
 
