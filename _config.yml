@@ -51,9 +51,9 @@ about_profile_image: images/me1.jpg
 about_content: | # this will include new lines to allow paragraphs
   Hi, I am Peng Jiang, a PhD student in Tsinghua University, Beijing, China. 
   
-  My research interests include multitask learning & lifelong learning, task compositionality & generalization, neural representation & representation alignment, brain & RNN & LLM. 
+  My research interests include multitask learning & lifelong learning, task compositionality & generalization, neural representation & representation alignment, brain & LLM, and mechanistic interpretability. 
   
-  I am curious about how can the intelligent systems (brain & AI) retain learned knowledge from previous tasks and use it to help future learning. To further understand this, I am currently working on studying task representation change during lifelong learning in the view of task compositionality. I will also explore the representation alignment between different learning systems (brain, RNN and LLM).
+  I am curious about how can the intelligent systems (brain & LLM) can retain learned knowledge from previous tasks and use it to facilitate future learning. To further understand this, I am currently working on studying task representation in both brain & LLM from the perspective of task compositionality, which I believe is a promising approach to explain generalization.  Additionally, I hope to discover similar underlying mechanisms of task representation in brain & LLM.
 
 content:
 
@@ -67,7 +67,7 @@ content:
         description: | # this will include new lines to allow paragraphs
           I am supervised by Prof. Xiaoxuan Jia in [Neural coding lab](https://jiaxx.github.io/). 
           In Jiaxx lab, I have explored different topics: visual coding, dimensionality reduction, neural dynamics, communication subspace across brain areas, RNN etc.
-          Now I'm foucsing on understanding task representation change during lifelong learning in the view of task compositionality. 
+          Now I'm foucsing on understanding multitask representation in the view of task compositionality in different learning systems (brain & LLM). 
         quote: >
           At the neural coding lab, we seek to understand how information is represented and processed in the brain to support flexible perception and behavior. Our research lies at the intersection of neuroscience, machine learning and psychology.
         
@@ -101,16 +101,21 @@ content:
           Discover the essence of intelligence, abstraction and generalization.
         description: | # this will include new lines to allow paragraphs
           <div style="text-align: center;">
-            <img src="images/proj.png" alt="proj" style="width: 400px; height: auto;">
+            <img src="images/proj_2.png" alt="proj" style="width: 400px; height: auto;">
           </div>
 
-          To understand knowledge update and reuse in lifelong learning, we have to understand how knowledge represent of task relatedness in learning systems. 
-          We can study task relatedness representation in both parameter space and representation space. 
-          Here I will focus on weight disentanglement in parameter space and feature disentanglement in representation space to understand task relatedness representation. 
+          To understand the updating and reuse of knowledge in lifelong learning, it is essential to grasp how learning systems represent the relatedness of tasks. 
+          The foundational ideas include:
+          - Multitask representation can be decomposed into sparse, independent features, with each task represented by a combination of different features. 
+          - Upon learning a new task, the system may utilize existing sparse features or introduce new ones.
 
-          - How task representation change in both brain and neural network (RNN, LLM) during lifelong learning?
-          - How to bridge task representation in parameter space and representation space?
-          - How similar task representation change is in brain and neural network?  
+          Further topics include:
+          - In the brain
+            - Does the brain employ a similar mechanism to represent task relatedness?
+            - Is there a communication subspace spanned by several task features across brain areas for information transfer?
+          - In LLM:
+            - Do LLMs utilize a similar mechanism to represent task relatedness?
+            - How can we bridge multitask representation between the parameter space and activation space?
 
 
   - title: Experience # Title for the section
@@ -167,7 +172,8 @@ content:
                 <ul>
                   <li>Consciousness</li>
                   <li>World Model</li>
-                  <li>Mind Reading (Neural Decoding)</li>
+                  <li>Brain Decoding</li>
+                  <li>AGI</li>
                 </ul>
               </li>
               <li><strong>Enjoy life</strong>
