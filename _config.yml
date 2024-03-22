@@ -53,7 +53,7 @@ about_content: | # this will include new lines to allow paragraphs
   
   My research interests include multitask learning & lifelong learning, task compositionality & generalization, neural representation & representation alignment, brain & LLM, and mechanistic interpretability. 
   
-  I am curious about how can the intelligent systems (brain & LLM) can retain learned knowledge from previous tasks and use it to facilitate future learning. To further understand this, I am currently working on studying task representation in both brain & LLM from the perspective of task compositionality, which I believe is a promising approach to explain generalization.  Additionally, I hope to discover similar underlying mechanisms of task representation in brain & LLM.
+  I am curious about how can the intelligent systems (brain & LLM) can retain learned knowledge from previous tasks and use it to facilitate future learning. To further understand this, I am currently working on studying task representation from the perspective of task compositionality, which I believe is a promising approach to explain generalization.  Additionally, I hope to discover the similar underlying mechanisms of multitask representation in brain & LLM.
 
 content:
 
@@ -67,7 +67,7 @@ content:
         description: | # this will include new lines to allow paragraphs
           I am supervised by Prof. Xiaoxuan Jia in [Neural coding lab](https://jiaxx.github.io/). 
           In Jiaxx lab, I have explored different topics: visual coding, dimensionality reduction, neural dynamics, communication subspace across brain areas, RNN etc.
-          Now I'm foucsing on understanding multitask representation in the view of task compositionality in different learning systems (brain & LLM). 
+          Now I'm focusing on understanding multitask representation in the view of task compositionality in different learning systems (brain & LLM). 
         quote: >
           At the neural coding lab, we seek to understand how information is represented and processed in the brain to support flexible perception and behavior. Our research lies at the intersection of neuroscience, machine learning and psychology.
         
@@ -111,8 +111,8 @@ content:
 
           Further topics include:
           - In the brain
-            - Does the brain employ a similar mechanism to represent task relatedness?
-            - Is there a communication subspace spanned by several task features across brain areas for information transfer?
+            - Does the brain utilize a similar mechanism to represent task relatedness?
+            - Is there a communication subspace spanned by shared task features across brain areas for information transfer?
           - In LLM:
             - Do LLMs utilize a similar mechanism to represent task relatedness?
             - How can we bridge multitask representation between the parameter space and activation space?
