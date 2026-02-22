@@ -2,6 +2,40 @@
 
 ---
 
+## 2026-02-23 10:30
+
+**做了什么**：修复博客文章目录（TOC）三个问题：
+
+1. `_layouts/post.html`：将 TOC 容器从 `<nav>` 改为 `<div>`，消除全局 `nav { position: sticky }` 的样式继承（导致 TOC 粘在顶部遮挡内容）
+2. `assets/css/style.scss`：目录字体调大（`.toc-item a` 0.85→0.925rem，`.toc-h3 a` 0.825→0.875rem），行距从 1.45 调至 1.5
+3. `assets/css/style.scss`：博客正文各级标题字体和间距调大：h2 1.1→1.2rem、h3 0.975→1.05rem；h2 上边距 1.75→2.25rem、h3 上边距 1.25→1.75rem；段落间距 0.85→1rem
+4. 提交并推送（commit `de974de`），部署成功
+
+**效果如何**：目录正常随页面滚动，不再遮挡内容；字体和间距更舒适易读。
+
+**是否遇到问题**：根本原因是用 `<nav>` 标签触发了全局 nav 的 sticky 定位规则。
+
+**��要做什么**：无。
+
+---
+
+## 2026-02-23 10:00
+
+**做了什么**：为博客文章页面添加自动生成目录（TOC）功能：
+
+1. `_layouts/post.html`：在 post-header 与 post-body 之间插入 `<nav id="post-toc">` 容器，并添加内联 JS 脚本自动提取当前激活语言块中的 h2/h3 标题生成目录链接
+2. `assets/js/lang-toggle.js`：在 `applyLang` 函数末尾添加 `rebuildTOC()` 调用，切换 CN/EN 时目录同步刷新
+3. `assets/css/style.scss`：添加 `.post-toc`、`.post-toc-label`、`.post-toc-list`、`.toc-item`、`.toc-h3` 等样式，风格与网站整体保持一致（浅灰背景 + 细边框，无动画）
+4. 提交并推送（commit `0e5a58c`）
+
+**效果如何**：TOC 自动从文章中提取 h2/h3 生成可点击目录，标题少于 2 个时隐藏；双语文章切换语言后目录标签（"目录"/"Contents"）和条目同步更新。
+
+**是否遇到问题**：无。
+
+**还要做什么**：等待 GitHub Actions 部署成功后验证效果。
+
+---
+
 ## 2026-02-22 17:00
 
 **做了什么**：对网站进行全面重构，包括以下工作：
