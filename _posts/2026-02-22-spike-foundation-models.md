@@ -52,17 +52,17 @@ math: true
 
 目前，各模型对神经元对应问题采取了不同策略，按照从简单到复杂可以分为以下几类：
 
-**方案 A：固定维度编码（NDT1 [[2]](#ref2)）。** 最简单的方案——线性投影 $W_{in} \in \mathbb{R}^{D \times N}$ 将每个神经元硬编码到 embedding 空间的固定方向。换一个 session，维度含义就完全改变，无法跨 session 迁移。
+**方案 A：固定维度编码（NDT1 [[2]](#ref2)）。** 最简单的方案——线性投影 $$W_{in} \in \mathbb{R}^{D \times N}$$ 将每个神经元硬编码到 embedding 空间的固定方向。换一个 session，维度含义就完全改变，无法跨 session 迁移。
 
-**方案 B：Learnable Unit Embedding（POYO [[4]](#ref4)）。** 为每个神经元分配可学习 embedding 向量 $e_n \in \mathbb{R}^D$。新 session 需要冻结主干网络，通过梯度下降更新这些 embedding。优点是显式建模了神经元身份；缺点是需要有标签校准数据和梯度更新。
+**方案 B：Learnable Unit Embedding（POYO [[4]](#ref4)）。** 为每个神经元分配可学习 embedding 向量 $$e_n \in \mathbb{R}^D$$。新 session 需要冻结主干网络，通过梯度下降更新这些 embedding。优点是显式建模了神经元身份；缺点是需要有标签校准数据和梯度更新。
 
 **方案 C：Context-Dependent Positional Embedding / IDEncoder（SPINT [[10]](#ref10)）。** 通过共享 MLP 网络从无标签校准数据中动态推断每个 unit 的 identity embedding，并将其作为**上下文依赖的位置编码**添加到 spike token 上（详见 [Section 3.3](#33-neuron-as-token以神经元为-token) 和 [Section 4.2](#42-神经元身份编码)）。这是目前最优雅的解决方案，实现了零梯度跨 session 迁移。
 
-**潜在方向一：将 POYO 的 Learnable Unit Embedding 扩展为前向推断。** POYO 当前为每个 unit 分配一个独立的可学习 embedding，新 session 需要梯度更新。一种自然的扩展是借鉴 SPINT 的 IDEncoder 思路——不再为每个 unit 维护独立 embedding，而是通过一个共享的前馈网络（feedforward network）**直接从 unit 的原始校准数据前向推断出 unit embedding**。具体来说，类似 SPINT 的 IDEncoder，将每个 unit 的 $M$ 条校准 trial 的 binned spike counts $X_n^{calib} \in \mathbb{R}^{M \times T}$ 直接送入网络，而非手动提取统计特征：
+**潜在方向一：将 POYO 的 Learnable Unit Embedding 扩展为前向推断。** POYO 当前为每个 unit 分配一个独立的可学习 embedding，新 session 需要梯度更新。一种自然的扩展是借鉴 SPINT 的 IDEncoder 思路——不再为每个 unit 维护独立 embedding，而是通过一个共享的前馈网络（feedforward network）**直接从 unit 的原始校准数据前向推断出 unit embedding**。具体来说，类似 SPINT 的 IDEncoder，将每个 unit 的 $$M$$ 条校准 trial 的 binned spike counts $$X_n^{calib} \in \mathbb{R}^{M \times T}$$ 直接送入网络，而非手动提取统计特征：
 
 $$e_n = \psi\left(\frac{1}{M} \sum_{j=1}^{M} \phi(X_{n,j}^{calib})\right)$$
 
-其中 $\phi$ 和 $\psi$ 是共享的多层前馈网络，$X_{n,j}^{calib}$ 是 unit $n$ 第 $j$ 条校准 trial 的原始 binned spike counts。这种端到端的方式让网络自己从原始数据中学习提取有意义的身份特征，完全避免了手动设计统计特征（如发放率分布、ISI 统计等）带来的信息瓶颈和归纳偏置。这相当于将 SPINT 的 IDEncoder 模块嫁接到 POYO 的 PerceiverIO 架构中，使其同时具备 POYO 的 spike-level 时间精度和 SPINT 的零梯度适应能力。
+其中 $$\phi$$ 和 $$\psi$$ 是共享的多层前馈网络，$$X_{n,j}^{calib}$$ 是 unit $$n$$ 第 $$j$$ 条校准 trial 的原始 binned spike counts。这种端到端的方式让网络自己从原始数据中学习提取有意义的身份特征，完全避免了手动设计统计特征（如发放率分布、ISI 统计等）带来的信息瓶颈和归纳偏置。这相当于将 SPINT 的 IDEncoder 模块嫁接到 POYO 的 PerceiverIO 架构中，使其同时具备 POYO 的 spike-level 时间精度和 SPINT 的零梯度适应能力。
 
 这种方案的**优势**在于：(1) 完全数据驱动，网络可以自动发现最有区分性的 unit 特征模式，而非依赖人为设计的统计量；(2) 与 POYO 现有架构兼容性好，只需将 `InfiniteVocabEmbedding` 替换为 IDEncoder 模块；(3) 端到端训练使 identity embedding 直接针对下游解码任务优化。**局限**在于：(1) 推断质量仍高度依赖校准数据的代表性——如果校准 trial 过少或未覆盖足够多的行为状态，学到的 identity 可能不够稳定；(2) 前馈网络的表达能力有限，可能难以捕捉需要群体上下文才能区分的 unit 特性（例如两个发放模式相似但功能角色不同的 unit）。
 
@@ -151,9 +151,9 @@ Tokenization 是所有基础模型的第一步，也是影响最深远的设计�
 
 $$\mathbf{h}_t = W_{in} \cdot \mathbf{x}_t + b, \quad W_{in} \in \mathbb{R}^{D \times N}$$
 
-其中 $\mathbf{x}_t \in \mathbb{R}^N$ 是时间步 $t$ 的群体 spike count 向量。**模式二**是 per-neuron embedding——将每个神经元的 spike count 视为离散变量，通过 `nn.Embedding` 查表映射为向量后拼接：
+其中 $$\mathbf{x}_t \in \mathbb{R}^N$$ 是时间步 $$t$$ 的群体 spike count 向量。**模式二**是 per-neuron embedding——将每个神经元的 spike count 视为离散变量，通过 `nn.Embedding` 查表映射为向量后拼接：
 
-$$\mathbf{h}_t = [E(x_{t,1}) \| E(x_{t,2}) \| \cdots \| E(x_{t,N})], \quad E: \{0,1,...,\text{max\_spikes}\} \to \mathbb{R}^{d}$$
+$$\mathbf{h}_t = [E(x_{t,1}) \| E(x_{t,2}) \| \cdots \| E(x_{t,N})], \quad E: \{0,1,...,\text{max_spikes}\} \to \mathbb{R}^{d}$$
 
 后一种模式将 spike count 视为离散分类变量而非连续值，与后来 NDT3 的离散化思路有内在联系。
 
@@ -181,9 +181,9 @@ POYO 开创了一种对 spike 数据最"原生"的表示：**每个单独的 spi
 
 数学上，每个 input spike token 的构造为：
 
-$$\mathbf{h}_i^{input} = E_{unit}(\text{unit\_id}_i) + E_{type}(\text{token\_type}_i)$$
+$$\mathbf{h}_i^{input} = E_{unit}(\text{unit_id}_i) + E_{type}(\text{token_type}_i)$$
 
-其中 $E_{unit}$ 使用 `InfiniteVocabEmbedding`（一种支持动态词汇表扩展的 learnable embedding，新 session 的新 unit 可以动态注册），$E_{type}$ 是 4 种 token 类型的 embedding。时间信息则通过 RoPE 在 attention 计算时注入（详见 [Section 4.1](#41-时间位置编码)）。
+其中 $$E_{unit}$$ 使用 `InfiniteVocabEmbedding`（一种支持动态词汇表扩展的 learnable embedding，新 session 的新 unit 可以动态注册），$$E_{type}$$ 是 4 种 token 类型的 embedding。时间信息则通过 RoPE 在 attention 计算时注入（详见 [Section 4.1](#41-时间位置编码)）。
 
 由于序列长度随 spike 数量增长，POYO 搭配了 **PerceiverIO 架构**作为压缩机制：通过 cross-attention 将 variable-length 的 spike token 序列压缩到固定数量（如 256 个）的 latent token，后续的 self-attention 只在这些 latent token 上进行。整个流程分为三个阶段：
 
@@ -195,7 +195,7 @@ $$\mathbf{h}_i^{input} = E_{unit}(\text{unit\_id}_i) + E_{type}(\text{token\_typ
 
 **CaPOYO 的钙成像扩展：** POYO+ 通过独立的 CaPOYO 模型类支持钙成像数据。CaPOYO 采用 **split-dim 拼接设计**显式解耦信号值和单元身份：
 
-$$\mathbf{h}_i = [\underbrace{W_{val} \cdot \Delta F/F_i + b_{val}}_{\in \mathbb{R}^{D/2}} \; \| \; \underbrace{E_{unit}(\text{unit\_id}_i)}_{\in \mathbb{R}^{D/2}}]$$
+$$\mathbf{h}_i = [\underbrace{W_{val} \cdot \Delta F/F_i + b_{val}}_{\in \mathbb{R}^{D/2}} \; \| \; \underbrace{E_{unit}(\text{unit_id}_i)}_{\in \mathbb{R}^{D/2}}]$$
 
 与 spike token 不同（spike 隐含值为 1），钙成像 token 需要同时编码连续的荧光信号值和 unit 身份。POYO+ 还新增了 `task_emb` 支持多任务解码（如速度解码、位置解码等）。
 
@@ -215,34 +215,34 @@ $$\mathbf{h}_i = [\underbrace{W_{val} \cdot \Delta F/F_i + b_{val}}_{\in \mathbb
 
 这种方案翻转了视角：不是按时间步切分，而是**将每个神经元的完整时间序列作为一个 spatial token**。
 
-**STNDT 的双流设计：** STNDT 同时构造两种视图——temporal tokens（每时间步的群体向量，$[T, B, N]$）和 spatial tokens（每个神经元的时间序列，转置为 $[N, B, T]$），通过独立的 attention 机制处理后融合。两个 stream 各有独立的线性 embedder 和正弦位置编码。Spatial attention 通过矩阵乘法重新加权 temporal 特征：
+**STNDT 的双流设计：** STNDT 同时构造两种视图——temporal tokens（每时间步的群体向量，$$[T, B, N]$$）和 spatial tokens（每个神经元的时间序列，转置为 $$[N, B, T]$$），通过独立的 attention 机制处理后融合。两个 stream 各有独立的线性 embedder 和正弦位置编码。Spatial attention 通过矩阵乘法重新加权 temporal 特征：
 
 $$Z_{ST} = A_S \cdot Z_T^\top$$
 
-其中 $A_S \in \mathbb{R}^{B \times N \times N}$ 是 spatial attention 的权重矩阵（softmax 后），$Z_T \in \mathbb{R}^{T \times B \times N}$ 是 temporal representation。融合后的 $Z_{ST}$ 经过残差连接和 FFN，让模型学习"哪些神经元应该一起被考虑"。
+其中 $$A_S \in \mathbb{R}^{B \times N \times N}$$ 是 spatial attention 的权重矩阵（softmax 后），$$Z_T \in \mathbb{R}^{T \times B \times N}$$ 是 temporal representation。融合后的 $$Z_{ST}$$ 经过残差连接和 FFN，让模型学习"哪些神经元应该一起被考虑"。
 
-**SPINT 的核心创新——IDEncoder 动态位置编码：** SPINT 将每个 neural unit 的 $W$ 个时间 bin 的 binned spike counts 构成一个 spatial token，配合其核心创新——**IDEncoder 上下文依赖的位置编码**。
+**SPINT 的核心创新——IDEncoder 动态位置编码：** SPINT 将每个 neural unit 的 $$W$$ 个时间 bin 的 binned spike counts 构成一个 spatial token，配合其核心创新——**IDEncoder 上下文依赖的位置编码**。
 
 SPINT 的 IDEncoder 不使用任何固定位置编码（这会假设神经元有固定顺序），而是从校准数据中动态推断每个 unit 的 identity，并将其**作为位置编码添加到 spike 活动上**。具体过程如下：
 
-1. **输入**：收集 unit $i$ 的 $M$ 条校准 trial 数据 $X_i^C \in \mathbb{R}^{M \times T}$（每条 trial 插值到固定长度 $T$，如 M1/H1 使用 $T=1024$）
-2. **逐 trial 编码**：通过共享的三层 MLP $\phi$ 处理每条 trial
+1. **输入**：收集 unit $$i$$ 的 $$M$$ 条校准 trial 数据 $$X_i^C \in \mathbb{R}^{M \times T}$$（每条 trial 插值到固定长度 $$T$$，如 M1/H1 使用 $$T=1024$$）
+2. **逐 trial 编码**：通过共享的三层 MLP $$\phi$$ 处理每条 trial
 3. **跨 trial 聚合**：对所有 trial 的表示取均值池化
-4. **身份生成**：通过第二个三层 MLP $\psi$ 生成最终的 identity embedding
+4. **身份生成**：通过第二个三层 MLP $$\psi$$ 生成最终的 identity embedding
 
 数学上：
 
 $$E_i = \text{IDEncoder}(X_i^C) = \psi\left(\frac{1}{M} \sum_{j=1}^{M} \phi(X_{i,j}^C)\right)$$
 
-其中 $\phi: \mathbb{R}^T \to \mathbb{R}^H$ 和 $\psi: \mathbb{R}^H \to \mathbb{R}^W$ 分别是两个三层全连接网络，$H$ 为隐藏维度（M1: $H=1024$; M2: $H=512$; H1: $H=1024$），$W$ 为窗口大小（对应 spike token 的维度）。
+其中 $$\phi: \mathbb{R}^T \to \mathbb{R}^H$$ 和 $$\psi: \mathbb{R}^H \to \mathbb{R}^W$$ 分别是两个三层全连接网络，$$H$$ 为隐藏维度（M1: $$H=1024$$; M2: $$H=512$$; H1: $$H=1024$$），$$W$$ 为窗口大小（对应 spike token 的维度）。
 
-**关键步骤——Identity Embedding 作为位置编码注入：** 生成的 $E_i$ 被**直接加到每个 unit 的 spike 活动窗口**上：
+**关键步骤——Identity Embedding 作为位置编码注入：** 生成的 $$E_i$$ 被**直接加到每个 unit 的 spike 活动窗口**上：
 
 $$Z_i = X_i + E_i$$
 
-这里 $X_i$ 是 unit $i$ 当前解码窗口的 binned spike counts，$Z_i$ 是 identity-aware 的表示。注意 $E_i$ 在同一 session 内对所有时间窗口保持不变——它编码的是 unit 的**稳定身份**（类似传统 Transformer 中位置编码编码的是 token 的位置），而 $X_i$ 携带的是**时变活动**。这种加法注入方式使得 $Z_i$ 同时包含了"谁在发放"（identity）和"发放了什么"（activity）的信息。
+这里 $$X_i$$ 是 unit $$i$$ 当前解码窗口的 binned spike counts，$$Z_i$$ 是 identity-aware 的表示。注意 $$E_i$$ 在同一 session 内对所有时间窗口保持不变——它编码的是 unit 的**稳定身份**（类似传统 Transformer 中位置编码编码的是 token 的位置），而 $$X_i$$ 携带的是**时变活动**。这种加法注入方式使得 $$Z_i$$ 同时包含了"谁在发放"（identity）和"发放了什么"（activity）的信息。
 
-随后，$Z_i$ 通过 MLP 投影到 cross-attention 的输入空间，由**可学习的行为查询矩阵** $Q \in \mathbb{R}^{B \times W}$ 通过单层 cross-attention 解码出行为预测：
+随后，$$Z_i$$ 通过 MLP 投影到 cross-attention 的输入空间，由**可学习的行为查询矩阵** $$Q \in \mathbb{R}^{B \times W}$$ 通过单层 cross-attention 解码出行为预测：
 
 $$\hat{Y}_t = \text{MLP}_{out}(\text{CrossAttn}(Q, \text{LN}(Z_{in}), \text{LN}(Z_{in})))$$
 
@@ -250,7 +250,7 @@ $$\hat{Y}_t = \text{MLP}_{out}(\text{CrossAttn}(Q, \text{LN}(Z_{in}), \text{LN}(
 
 $$\text{CrossAttn}(Q, P_R Z, P_R Z) = \text{CrossAttn}(Q, Z, Z)$$
 
-其中 $P_R$ 是任意行置换矩阵。无论神经元排序如何，输出完全相同。此外，SPINT 采用**动态通道 dropout**（dynamic channel dropout）来增强对不同 session 间神经元组成变化的鲁棒性。
+其中 $$P_R$$ 是任意行置换矩阵。无论神经元排序如何，输出完全相同。此外，SPINT 采用**动态通道 dropout**（dynamic channel dropout）来增强对不同 session 间神经元组成变化的鲁棒性。
 
 **跨 session 迁移零梯度：** 对于未见 session，只需在校准数据上运行训练好的 IDEncoder 前向传播，即可推断出所有 unit 的 identity embedding——无需梯度更新、无需标签数据。
 
@@ -261,7 +261,7 @@ $$\text{CrossAttn}(Q, P_R Z, P_R Z) = \text{CrossAttn}(Q, Z, Z)$$
 - 轻量设计（单层 cross-attention + 两个三层 MLP），适合实时 BCI
 
 **劣势：**
-- Spatial attention 在神经元数量 N 上有 $O(N^2)$ 复杂度，大规模记录可能成为瓶颈
+- Spatial attention 在神经元数量 N 上有 $$O(N^2)$$ 复杂度，大规模记录可能成为瓶颈
 - 底层仍依赖 binning，损失了精细时间信息
 - 目前仅在较小规模上验证
 
@@ -278,9 +278,9 @@ Neuroformer 采用了最接近 NLP 的方案：将每个 spike event 编码为 *
 
 每个 spike token 的 embedding 由三部分加法合成：
 
-$$\mathbf{h}_i = E_{tok}(\text{neuron\_id}_i) + E_{pos}(i) + E_{temp}(\Delta t_i)$$
+$$\mathbf{h}_i = E_{tok}(\text{neuron_id}_i) + E_{pos}(i) + E_{temp}(\Delta t_i)$$
 
-其中 $E_{tok}$ 是 neuron ID 的 embedding table（`nn.Embedding`），$E_{pos}$ 是 learnable position embedding（编码序列内位置索引），$E_{temp}$ 默认是 **sinusoidal temporal embedding**（编码连续时间偏移值 $\Delta t$，而非 learnable embedding）。也可选配 learnable temporal embedding，但代码默认使用正弦编码。
+其中 $$E_{tok}$$ 是 neuron ID 的 embedding table（`nn.Embedding`），$$E_{pos}$$ 是 learnable position embedding（编码序列内位置索引），$$E_{temp}$$ 默认是 **sinusoidal temporal embedding**（编码连续时间偏移值 $$\Delta t$$，而非 learnable embedding）。也可选配 learnable temporal embedding，但代码默认使用正弦编码。
 
 Neuroformer 的完整架构是一个**多模态系统**，包含：neural token embedding stem（即上述 spike 编码）、可选的 visual backbone（VideoEncoder/ResNet3D/ViT）、MultimodalTransformer（处理 neural-visual 跨模态 attention）、CLIP 模块（可选的跨模态对比学习）、以及独立的 head_id（预测下一个 neuron ID）和 head_dt（预测时间偏移）预测头。
 
@@ -290,7 +290,7 @@ Neuroformer 的完整架构是一个**多模态系统**，包含：neural token 
 - **高可解释性**：attention weights 直接反映神经元间的功能耦合，论文发现 attention maps 镜像了 Hebbian 连接性
 
 **劣势：**
-- 没有 PerceiverIO 式压缩，高发放率群体计算量大（$O(L^2)$）
+- 没有 PerceiverIO 式压缩，高发放率群体计算量大（$$O(L^2)$$）
 - neuron_id 是固定词汇表，跨 session 能力最弱
 - 自回归逐 spike 生成推理速度很慢
 
@@ -310,7 +310,7 @@ POYO 的 Per-Spike Token 和 Neuroformer 的 Spike Event Pairs 在表面上非�
 |------|----------------------|-------------------------------|
 | 时间编码 | RoPE（绝对连续时间戳） | Sinusoidal/Learnable（相对 offset） |
 | 身份编码 | InfiniteVocabEmbedding（动态） | nn.Embedding（固定词汇表） |
-| 序列压缩 | PerceiverIO（固定 latent） | 无压缩（$O(L^2)$ attention） |
+| 序列压缩 | PerceiverIO（固定 latent） | 无压缩（$$O(L^2)$$ attention） |
 | 模型范式 | 判别式解码器 | 生成式自回归 |
 | 训练目标 | MSE（行为变量） | CE（next spike）+ 对比学习 |
 | 跨 session | Learnable embedding + 梯度更新 | 固定词汇表，最弱 |
@@ -324,7 +324,7 @@ POYO 的 Per-Spike Token 和 Neuroformer 的 Spike Event Pairs 在表面上非�
 |------|----------------|----------|-----------------|-------------|
 | 时间精度 | ★★☆☆☆ (20ms) | ★★★★★ (ms级) | ★★☆☆☆ (依赖bin) | ★★★★☆ (窗口内离散) |
 | 稀疏性处理 | ★★☆☆☆ | ★★★★★ | ★★★☆☆ | ★★★★★ |
-| 计算效率 | ★★★★★ (固定长度) | ★★★★☆ (有压缩) | ★★★☆☆ ($O(N^2)$) | ★★☆☆☆ (无压缩) |
+| 计算效率 | ★★★★★ (固定长度) | ★★★★☆ (有压缩) | ★★★☆☆ ($$O(N^2)$$) | ★★☆☆☆ (无压缩) |
 | 神经元对应 | ★★☆☆☆ | ★★★☆☆ | ★★★★★ (SPINT) | ★★☆☆☆ |
 | 生成能力 | ★★★☆☆ (重建) | ★☆☆☆☆ | ★☆☆☆☆ | ★★★★★ |
 | 可解释性 | ★★★☆☆ | ★★★☆☆ | ★★★★☆ | ★★★★★ |
@@ -345,9 +345,9 @@ Tokenization 解决了"如何切分"的问题，而 Embedding 解决的是"如�
 
 $$PE_{(pos, 2i)} = \sin\left(\frac{pos}{10000^{2i/d}}\right), \quad PE_{(pos, 2i+1)} = \cos\left(\frac{pos}{10000^{2i/d}}\right)$$
 
-注入方式为**加法**：$\mathbf{h}_t \leftarrow \mathbf{h}_t + PE(t)$。NDT1 也支持 learnable position embedding（`nn.Embedding`）。STNDT 的两个 stream 各有独立的正弦位置编码——temporal PE 维度为 $D_T = N$、序列长度为 $T$；spatial PE 维度为 $D_S = T$、序列长度为 $N$。
+注入方式为**加法**：$$\mathbf{h}_t \leftarrow \mathbf{h}_t + PE(t)$$。NDT1 也支持 learnable position embedding（`nn.Embedding`）。STNDT 的两个 stream 各有独立的正弦位置编码——temporal PE 维度为 $$D_T = N$$、序列长度为 $$T$$；spatial PE 维度为 $$D_S = T$$、序列长度为 $$N$$。
 
-Neuroformer [[14]](#ref14) 的时间编码默认也使用**正弦函数**（`TemporalEmbedding`），但编码的是**连续时间偏移值** $\Delta t$（而非离散索引），可选配 learnable temporal embedding。此外 Neuroformer 还有独立的 learnable position embedding（`nn.Parameter`）编码序列内位置索引。
+Neuroformer [[14]](#ref14) 的时间编码默认也使用**正弦函数**（`TemporalEmbedding`），但编码的是**连续时间偏移值** $$\Delta t$$（而非离散索引），可选配 learnable temporal embedding。此外 Neuroformer 还有独立的 learnable position embedding（`nn.Parameter`）编码序列内位置索引。
 
 **Learnable Position/Temporal Embedding。** MtM [[7]](#ref7) 使用 learnable position embedding（`nn.Embedding`），通过加法注入到 spike token 中。NDT3 [[6]](#ref6) 同时支持 learnable time embedding（加法注入）和 Rotary PE（在 attention 层内部注入）两种模式，以及一个 learnable **spatial embedding**（`nn.Embedding`）用于区分同一时间步内不同 spatial patch 的位置。NEDS [[8]](#ref8) 也使用 learnable temporal embedding。
 
@@ -355,7 +355,7 @@ Neuroformer [[14]](#ref14) 的时间编码默认也使用**正弦函数**（`Tem
 
 $$\text{RoPE}(x_{2i-1}, x_{2i}, t) = \begin{pmatrix} x_{2i-1} \cos(\omega_i t) - x_{2i} \sin(\omega_i t) \\ x_{2i-1} \sin(\omega_i t) + x_{2i} \cos(\omega_i t) \end{pmatrix}$$
 
-其中 $\omega_i = 2\pi / T_i$，$T_i$ 在 $[T_{min}, T_{max}]$ 上对数均匀分布（默认 $T_{min}=10^{-4}$, $T_{max}\approx 2.06$）。仅旋转 head 维度的一半（默认 head_dim=64 中旋转 32 维），另一半保持不变。NDT3 的 RoPE 则编码**离散时间步索引**。
+其中 $$\omega_i = 2\pi / T_i$$，$$T_i$$ 在 $$[T_{min}, T_{max}]$$ 上对数均匀分布（默认 $$T_{min}=10^{-4}$$, $$T_{max}\approx 2.06$$）。仅旋转 head 维度的一半（默认 head_dim=64 中旋转 32 维），另一半保持不变。NDT3 的 RoPE 则编码**离散时间步索引**。
 
 **各项目时间编码方案总结：**
 
@@ -366,7 +366,7 @@ $$\text{RoPE}(x_{2i-1}, x_{2i}, t) = \begin{pmatrix} x_{2i-1} \cos(\omega_i t) -
 | NDT2 | 未使用显式时间编码 | — | — |
 | NDT3 | Learnable time emb / Rotary PE + Learnable spatial emb | 离散时间步 + 空间位置 | 加法 / Attention 内旋转 |
 | POYO/POSSM | Rotary PE | 连续时间戳（秒） | Attention 内旋转 |
-| Neuroformer | Sinusoidal temporal emb（默认）+ Learnable position emb | 连续 $\Delta t$ + 序列索引 | 加法 |
+| Neuroformer | Sinusoidal temporal emb（默认）+ Learnable position emb | 连续 $$\Delta t$$ + 序列索引 | 加法 |
 | MtM | Learnable position emb | 离散时间步索引 | 加法 |
 | NEDS | Learnable temporal emb | 离散时间步 | 加法 |
 
@@ -374,19 +374,19 @@ $$\text{RoPE}(x_{2i-1}, x_{2i}, t) = \begin{pmatrix} x_{2i-1} \cos(\omega_i t) -
 
 这是最关键的 embedding 选择，直接决定了模型的跨 session 能力。
 
-**隐式位置编码（群体向量中的维度位置）。** NDT1 [[2]](#ref2) 的线性投影 $W_{in} \in \mathbb{R}^{D \times N}$ 隐式地将每个神经元映射到 embedding 空间的特定方向。第 $i$ 个神经元的 spike count 总是乘以 $W_{in}$ 的第 $i$ 列。这意味着神经元身份完全由输入维度的位置决定——换一个 session，维度含义就变了。
+**隐式位置编码（群体向量中的维度位置）。** NDT1 [[2]](#ref2) 的线性投影 $$W_{in} \in \mathbb{R}^{D \times N}$$ 隐式地将每个神经元映射到 embedding 空间的特定方向。第 $$i$$ 个神经元的 spike count 总是乘以 $$W_{in}$$ 的第 $$i$$ 列。这意味着神经元身份完全由输入维度的位置决定——换一个 session，维度含义就变了。
 
-**Learnable Unit Embeddings。** POYO [[4]](#ref4)/POYO+ [[9]](#ref9) 使用 `InfiniteVocabEmbedding`，为每个 neural unit 分配可学习的 embedding 向量 $e_n \in \mathbb{R}^D$。支持动态词汇表扩展，新 session 的新 unit 可以运行时注册。新 session 需冻结主干，通过梯度下降重学习 embedding。CaPOYO 的 unit embedding 为半维度（$D/2$），与 value map 拼接。
+**Learnable Unit Embeddings。** POYO [[4]](#ref4)/POYO+ [[9]](#ref9) 使用 `InfiniteVocabEmbedding`，为每个 neural unit 分配可学习的 embedding 向量 $$e_n \in \mathbb{R}^D$$。支持动态词汇表扩展，新 session 的新 unit 可以运行时注册。新 session 需冻结主干，通过梯度下降重学习 embedding。CaPOYO 的 unit embedding 为半维度（$$D/2$$），与 value map 拼接。
 
 **Neuron ID Embedding Table。** Neuroformer [[14]](#ref14) 使用固定大小的 `nn.Embedding`，将 neuron_id 映射为向量。词汇量在训练时确定，跨 session 能力受限于词汇表大小。
 
-**Context-Dependent Positional Embedding / IDEncoder。** SPINT [[10]](#ref10) 的核心创新（详见 [Section 3.3](#33-neuron-as-token以神经元为-token)）。通过共享的双 MLP 网络从无标签校准数据动态推断 unit identity embedding $E_i$，并作为**位置编码**加到 spike 活动上。这些 embedding 反映了每个神经元在当前 session 中的功能角色（如发放率模式、时间相关特性等），而非固定的通道索引。
+**Context-Dependent Positional Embedding / IDEncoder。** SPINT [[10]](#ref10) 的核心创新（详见 [Section 3.3](#33-neuron-as-token以神经元为-token)）。通过共享的双 MLP 网络从无标签校准数据动态推断 unit identity embedding $$E_i$$，并作为**位置编码**加到 spike 活动上。这些 embedding 反映了每个神经元在当前 session 中的功能角色（如发放率模式、时间相关特性等），而非固定的通道索引。
 
 **Session/Context Tokens。** NDT2 [[5]](#ref5) 引入了 learnable session embedding、subject embedding 和 task embedding。注入方式有两种：(1) **Token 策略**：作为额外 token prepend 到序列首部，配合 flag 参数作为 type indicator；(2) **Concat 策略**：拼接到每个 token 的 embedding 后再投影。NDT3 [[6]](#ref6) 进一步加入 phase token（BCI vs. native control）和 return token（控制器质量，Decision Transformer 风格）。
 
 **Session Embedding + Prompt Token。** MtM [[7]](#ref7) 使用 session embedding（`nn.Embedding`）和 prompt embedding（4 种 masking mode 各对应一个）。注入方式是作为**序列前缀 token**——prompt token 在第一个位置，session token 在第二个位置，使模型通过读取序列开头的 token 即可知道当前的 session 和 masking 任务类型。
 
-**Session-Specific 投影。** NEDS [[8]](#ref8) 为每个 session 学习独立的线性投影 $W_{neural} \in \mathbb{R}^{N_{session} \times D}$，处理不同 session 间神经元数量不同的问题。所有 token 还添加 modality embedding 和 session embedding。
+**Session-Specific 投影。** NEDS [[8]](#ref8) 为每个 session 学习独立的线性投影 $$W_{neural} \in \mathbb{R}^{N_{session} \times D}$$，处理不同 session 间神经元数量不同的问题。所有 token 还添加 modality embedding 和 session embedding。
 
 ### 4.3 各项目 Embedding 注入网络流程详解
 
@@ -527,15 +527,15 @@ Loss 函数定义了模型的训练目标，直接影响学到的表示质量。
 
 $$\mathcal{L}_{Poisson} = -\sum_{t,n} \left[ y_{t,n} \cdot \log(\lambda_{t,n}) - \lambda_{t,n} - \log(y_{t,n}!) \right]$$
 
-其中 $y_{t,n}$ 是真实 spike count，$\lambda_{t,n}$ 是模型预测的 Poisson rate（通过 softplus 保证正值）。选择 Poisson NLL 的理由是 spike count 是非负整数且方差约等于均值，Poisson 分布是合理的生成模型假设。局限性在于真实神经数据常常存在 over-dispersion（方差 > 均值），且在低 count 区域梯度信号很弱。
+其中 $$y_{t,n}$$ 是真实 spike count，$$\lambda_{t,n}$$ 是模型预测的 Poisson rate（通过 softplus 保证正值）。选择 Poisson NLL 的理由是 spike count 是非负整数且方差约等于均值，Poisson 分布是合理的生成模型假设。局限性在于真实神经数据常常存在 over-dispersion（方差 > 均值），且在低 count 区域梯度信号很弱。
 
 **Poisson-Softened Cross-Entropy。** NDT3 [[6]](#ref6) 的选择——这并非标准的 categorical cross-entropy，而是使用 **Poisson PMF 作为 soft target** 的改进版本。将 spike count 离散化后，目标分布不是 one-hot 向量，而是以真实 count 为均值的 Poisson PMF：
 
 $$\mathcal{L} = -\sum_{k=0}^{K} q_k \log p_k, \quad q_k = \frac{e^{-y} y^k / k!}{\sum_{j=0}^{K} e^{-y} y^j / j!}$$
 
-当 $y=0$ 时，$q_0 = 1$（退化为 one-hot）；当 $y=3$ 时，$q$ 在 $k=2,3,4$ 附近分散概率。这种设计让模型在"预测 2 还是 3"时的错误代价小于"预测 0 还是 3"。NDT3 代码中同时支持标准 Poisson NLL 和 Poisson-softened CE 两种 spike loss，由配置选择。
+当 $$y=0$$ 时，$$q_0 = 1$$（退化为 one-hot）；当 $$y=3$$ 时，$$q$$ 在 $$k=2,3,4$$ 附近分散概率。这种设计让模型在"预测 2 还是 3"时的错误代价小于"预测 0 还是 3"。NDT3 代码中同时支持标准 Poisson NLL 和 Poisson-softened CE 两种 spike loss，由配置选择。
 
-**Neuron ID + Temporal Cross-Entropy。** Neuroformer [[14]](#ref14) 的自回归 loss。预测下一个 spike 来自哪个神经元（neuron ID 分类）以及何时发放（time offset 分类）：$\mathcal{L} = \mathcal{L}_{neuron\_id} + \mathcal{L}_{temporal}$，这是唯一能驱动生成能力的 loss 设计。
+**Neuron ID + Temporal Cross-Entropy。** Neuroformer [[14]](#ref14) 的自回归 loss。预测下一个 spike 来自哪个神经元（neuron ID 分类）以及何时发放（time offset 分类）：$$\mathcal{L} = \mathcal{L}_{neuron_id} + \mathcal{L}_{temporal}$$，这是唯一能驱动生成能力的 loss 设计。
 
 **MSE（均方误差）。** 所有监督方法（POYO [[4]](#ref4), POSSM [[13]](#ref13), SPINT [[10]](#ref10)）用于预测连续行为变量（如手部速度）。NDT2/NDT3 在微调阶段也使用 MSE。NEDS 将 MSE 用于连续行为变量的重建。
 
@@ -547,7 +547,7 @@ $$\mathcal{L} = -\sum_{k=0}^{K} q_k \log p_k, \quad q_k = \frac{e^{-y} y^k / k!}
 
 $$\mathcal{L}_{contrastive} = -\log\frac{\exp(\text{sim}(z_i, z_j)/\tau)}{\sum_k \exp(\text{sim}(z_i, z_k)/\tau)}$$
 
-实际代码实现中 STNDT 将此称为 `info_nce_loss`，默认 temperature $\tau=0.07$。总 loss 为 $\mathcal{L} = \mathcal{L}_{masked\_recon} + \lambda \cdot \mathcal{L}_{contrastive}$，$\lambda$ 默认 $10^{-8}$。
+实际代码实现中 STNDT 将此称为 `info_nce_loss`，默认 temperature $$\tau=0.07$$。总 loss 为 $$\mathcal{L} = \mathcal{L}_{masked_recon} + \lambda \cdot \mathcal{L}_{contrastive}$$，$$\lambda$$ 默认 $$10^{-8}$$。
 
 **InfoNCE / CLIP Loss。** Neuroformer [[14]](#ref14) 用于对齐 neural embedding 和 stimulus embedding。实际支持两种实现：(1) **单向 contrastive_loss**（简化 InfoNCE）；(2) **对称 clip_loss**（CLIP-style 双向 cross-entropy）。选择由配置控制。两种 loss 都支持多模态对之间的对比学习。
 
@@ -799,17 +799,17 @@ More specifically, cross-session transfer has three progressively difficult leve
 
 Currently, different models adopt various strategies for the neuron correspondence problem, which can be categorized from simple to complex as follows:
 
-**Solution A: Fixed Dimensional Encoding (NDT1 [[2]](#ref2)).** The simplest approach—a linear projection $W_{in} \in \mathbb{R}^{D \times N}$ hard-codes each neuron to a fixed direction in embedding space. Switching sessions completely changes the meaning of dimensions, making cross-session transfer impossible.
+**Solution A: Fixed Dimensional Encoding (NDT1 [[2]](#ref2)).** The simplest approach—a linear projection $$W_{in} \in \mathbb{R}^{D \times N}$$ hard-codes each neuron to a fixed direction in embedding space. Switching sessions completely changes the meaning of dimensions, making cross-session transfer impossible.
 
-**Solution B: Learnable Unit Embedding (POYO [[4]](#ref4)).** Assigns a learnable embedding vector $e_n \in \mathbb{R}^D$ to each neuron. New sessions require freezing the backbone network and updating these embeddings via gradient descent. The advantage is explicit modeling of neuron identity; the disadvantage requires labeled calibration data and gradient updates.
+**Solution B: Learnable Unit Embedding (POYO [[4]](#ref4)).** Assigns a learnable embedding vector $$e_n \in \mathbb{R}^D$$ to each neuron. New sessions require freezing the backbone network and updating these embeddings via gradient descent. The advantage is explicit modeling of neuron identity; the disadvantage requires labeled calibration data and gradient updates.
 
 **Solution C: Context-Dependent Positional Embedding / IDEncoder (SPINT [[10]](#ref10)).** Dynamically infers each unit's identity embedding from unlabeled calibration data through a shared MLP network and adds it as **context-dependent positional encoding** to spike tokens (see [Section 3.3](#33-neuron-as-token-以神经元为-token) and [Section 4.2](#42-神经元身份编码)). This is currently the most elegant solution, achieving zero-gradient cross-session transfer.
 
-**Potential Direction One: Extending POYO's Learnable Unit Embedding to forward inference.** POYO currently assigns independent learnable embeddings to each unit, requiring gradient updates for new sessions. A natural extension is inspired by SPINT's IDEncoder approach—instead of maintaining independent embeddings for each unit, use a shared feedforward network to **directly forward-infer unit embeddings from raw calibration data**. Specifically, analogous to SPINT's IDEncoder, feed each unit's $M$ calibration trials of binned spike counts $X_n^{calib} \in \mathbb{R}^{M \times T}$ directly into the network, rather than manually extracting statistical features:
+**Potential Direction One: Extending POYO's Learnable Unit Embedding to forward inference.** POYO currently assigns independent learnable embeddings to each unit, requiring gradient updates for new sessions. A natural extension is inspired by SPINT's IDEncoder approach—instead of maintaining independent embeddings for each unit, use a shared feedforward network to **directly forward-infer unit embeddings from raw calibration data**. Specifically, analogous to SPINT's IDEncoder, feed each unit's $$M$$ calibration trials of binned spike counts $$X_n^{calib} \in \mathbb{R}^{M \times T}$$ directly into the network, rather than manually extracting statistical features:
 
 $$e_n = \psi\left(\frac{1}{M} \sum_{j=1}^{M} \phi(X_{n,j}^{calib})\right)$$
 
-where $\phi$ and $\psi$ are shared multi-layer feedforward networks, and $X_{n,j}^{calib}$ is the raw binned spike counts of unit $n$'s $j$-th calibration trial. This end-to-end approach lets the network learn to extract meaningful identity features directly from raw data, completely avoiding the information bottleneck and inductive bias introduced by manually designed statistical features (such as firing rate distributions, ISI statistics, etc.). This amounts to grafting SPINT's IDEncoder module onto POYO's PerceiverIO architecture, giving it both POYO's spike-level temporal precision and SPINT's zero-gradient adaptation capability.
+where $$\phi$$ and $$\psi$$ are shared multi-layer feedforward networks, and $$X_{n,j}^{calib}$$ is the raw binned spike counts of unit $$n$$'s $$j$$-th calibration trial. This end-to-end approach lets the network learn to extract meaningful identity features directly from raw data, completely avoiding the information bottleneck and inductive bias introduced by manually designed statistical features (such as firing rate distributions, ISI statistics, etc.). This amounts to grafting SPINT's IDEncoder module onto POYO's PerceiverIO architecture, giving it both POYO's spike-level temporal precision and SPINT's zero-gradient adaptation capability.
 
 The **advantages** of this approach are: (1) fully data-driven—the network can automatically discover the most discriminative unit feature patterns without relying on hand-crafted statistics; (2) good compatibility with POYO's existing architecture, requiring only replacement of `InfiniteVocabEmbedding` with an IDEncoder module; (3) end-to-end training optimizes identity embeddings directly for downstream decoding tasks. **Limitations** include: (1) inference quality still highly depends on the representativeness of calibration data—if calibration trials are too few or fail to cover sufficient behavioral states, the learned identity may not be stable; (2) the expressiveness of feedforward networks is limited, potentially struggling to capture unit characteristics that require population context to disambiguate (e.g., two units with similar firing patterns but different functional roles).
 
@@ -898,9 +898,9 @@ Raw spike trains → 20ms binning → N×T matrix → project each column → T 
 
 $$\mathbf{h}_t = W_{in} \cdot \mathbf{x}_t + b, \quad W_{in} \in \mathbb{R}^{D \times N}$$
 
-where $\mathbf{x}_t \in \mathbb{R}^N$ is the population spike count vector at timestep $t$. **Mode two** is per-neuron embedding—treat each neuron's spike count as a discrete variable, mapped to vectors via `nn.Embedding` lookup and concatenated:
+where $$\mathbf{x}_t \in \mathbb{R}^N$$ is the population spike count vector at timestep $$t$$. **Mode two** is per-neuron embedding—treat each neuron's spike count as a discrete variable, mapped to vectors via `nn.Embedding` lookup and concatenated:
 
-$$\mathbf{h}_t = [E(x_{t,1}) \| E(x_{t,2}) \| \cdots \| E(x_{t,N})], \quad E: \{0,1,...,\text{max\_spikes}\} \to \mathbb{R}^{d}$$
+$$\mathbf{h}_t = [E(x_{t,1}) \| E(x_{t,2}) \| \cdots \| E(x_{t,N})], \quad E: \{0,1,...,\text{max_spikes}\} \to \mathbb{R}^{d}$$
 
 The latter mode treats spike counts as discrete categorical variables rather than continuous values, internally connected to NDT3's later discretization approach.
 
@@ -928,9 +928,9 @@ Specifically, each spike token consists of three pieces of information: a learna
 
 Mathematically, each input spike token is constructed as:
 
-$$\mathbf{h}_i^{input} = E_{unit}(\text{unit\_id}_i) + E_{type}(\text{token\_type}_i)$$
+$$\mathbf{h}_i^{input} = E_{unit}(\text{unit_id}_i) + E_{type}(\text{token_type}_i)$$
 
-where $E_{unit}$ uses `InfiniteVocabEmbedding` (a learnable embedding supporting dynamic vocabulary expansion; new units in new sessions can be registered dynamically), and $E_{type}$ is embedding for 4 token types. Temporal information is injected via RoPE during attention computation (see [Section 4.1](#41-时间位置编码)).
+where $$E_{unit}$$ uses `InfiniteVocabEmbedding` (a learnable embedding supporting dynamic vocabulary expansion; new units in new sessions can be registered dynamically), and $$E_{type}$$ is embedding for 4 token types. Temporal information is injected via RoPE during attention computation (see [Section 4.1](#41-时间位置编码)).
 
 Due to sequence length growing with spike count, POYO pairs with **PerceiverIO architecture** as a compression mechanism: variable-length spike token sequences are compressed to a fixed number of latent tokens (e.g., 256) via cross-attention; subsequent self-attention operates only on these latent tokens. The entire process has three stages:
 
@@ -942,7 +942,7 @@ Notably, POYO's decoder side is **session-aware**—using `session_emb` to const
 
 **CaPOYO's Calcium Imaging Extension:** POYO+ extends support to calcium imaging data through an independent CaPOYO model class. CaPOYO employs a **split-dim concatenation design** to explicitly decouple signal value and unit identity:
 
-$$\mathbf{h}_i = [\underbrace{W_{val} \cdot \Delta F/F_i + b_{val}}_{\in \mathbb{R}^{D/2}} \; \| \; \underbrace{E_{unit}(\text{unit\_id}_i)}_{\in \mathbb{R}^{D/2}}]$$
+$$\mathbf{h}_i = [\underbrace{W_{val} \cdot \Delta F/F_i + b_{val}}_{\in \mathbb{R}^{D/2}} \; \| \; \underbrace{E_{unit}(\text{unit_id}_i)}_{\in \mathbb{R}^{D/2}}]$$
 
 Unlike spike tokens (where spike value is implicitly 1), calcium imaging tokens must encode both continuous fluorescence signal values and unit identity. POYO+ additionally introduces `task_emb` to support multi-task decoding (such as velocity decoding, position decoding, etc.).
 
@@ -962,34 +962,34 @@ Unlike spike tokens (where spike value is implicitly 1), calcium imaging tokens 
 
 This approach flips the perspective: instead of partitioning by timestep, **each neuron's complete time series becomes a spatial token**.
 
-**STNDT's Dual-Stream Design:** STNDT simultaneously constructs two views—temporal tokens (population vector per timestep, $[T, B, N]$) and spatial tokens (time series per neuron, transposed as $[N, B, T]$), processed separately via attention mechanisms then fused. Both streams have independent linear embedders and sinusoidal position encodings. Spatial attention reweights temporal features via matrix multiplication:
+**STNDT's Dual-Stream Design:** STNDT simultaneously constructs two views—temporal tokens (population vector per timestep, $$[T, B, N]$$) and spatial tokens (time series per neuron, transposed as $$[N, B, T]$$), processed separately via attention mechanisms then fused. Both streams have independent linear embedders and sinusoidal position encodings. Spatial attention reweights temporal features via matrix multiplication:
 
 $$Z_{ST} = A_S \cdot Z_T^\top$$
 
-where $A_S \in \mathbb{R}^{B \times N \times N}$ is the spatial attention weight matrix (after softmax), and $Z_T \in \mathbb{R}^{T \times B \times N}$ is the temporal representation. The fused $Z_{ST}$ passes through residual connection and FFN, allowing the model to learn "which neurons should be considered together."
+where $$A_S \in \mathbb{R}^{B \times N \times N}$$ is the spatial attention weight matrix (after softmax), and $$Z_T \in \mathbb{R}^{T \times B \times N}$$ is the temporal representation. The fused $$Z_{ST}$$ passes through residual connection and FFN, allowing the model to learn "which neurons should be considered together."
 
-**SPINT's Core Innovation—IDEncoder Dynamic Positional Encoding:** SPINT constructs a spatial token from each neural unit's $W$ time bins of binned spike counts, paired with its core innovation—**context-dependent positional encoding via IDEncoder**.
+**SPINT's Core Innovation—IDEncoder Dynamic Positional Encoding:** SPINT constructs a spatial token from each neural unit's $$W$$ time bins of binned spike counts, paired with its core innovation—**context-dependent positional encoding via IDEncoder**.
 
 SPINT's IDEncoder uses no fixed position encoding (which would assume fixed neuron order) but dynamically infers each unit's identity from calibration data, **adding it as positional encoding to spike activity**. The specific process is as follows:
 
-1. **Input**: Collect unit $i$'s $M$ calibration trials $X_i^C \in \mathbb{R}^{M \times T}$ (each trial interpolated to fixed length $T$, such as T=1024 for M1/H1)
-2. **Per-trial encoding**: Process each trial through shared three-layer MLP $\phi$
+1. **Input**: Collect unit $$i$$'s $$M$$ calibration trials $$X_i^C \in \mathbb{R}^{M \times T}$$ (each trial interpolated to fixed length $$T$$, such as T=1024 for M1/H1)
+2. **Per-trial encoding**: Process each trial through shared three-layer MLP $$\phi$$
 3. **Cross-trial aggregation**: Average-pool representations across all trials
-4. **Identity generation**: Generate final identity embedding through second three-layer MLP $\psi$
+4. **Identity generation**: Generate final identity embedding through second three-layer MLP $$\psi$$
 
 Mathematically:
 
 $$E_i = \text{IDEncoder}(X_i^C) = \psi\left(\frac{1}{M} \sum_{j=1}^{M} \phi(X_{i,j}^C)\right)$$
 
-where $\phi: \mathbb{R}^T \to \mathbb{R}^H$ and $\psi: \mathbb{R}^H \to \mathbb{R}^W$ are respectively two three-layer fully-connected networks, with $H$ as hidden dimension (M1: $H=1024$; M2: $H=512$; H1: $H=1024$) and $W$ as window size (corresponding to spike token dimension).
+where $$\phi: \mathbb{R}^T \to \mathbb{R}^H$$ and $$\psi: \mathbb{R}^H \to \mathbb{R}^W$$ are respectively two three-layer fully-connected networks, with $$H$$ as hidden dimension (M1: $$H=1024$$; M2: $$H=512$$; H1: $$H=1024$$) and $$W$$ as window size (corresponding to spike token dimension).
 
-**Key Step—Identity Embedding Injected as Positional Encoding:** The generated $E_i$ is **directly added to each unit's spike activity window**:
+**Key Step—Identity Embedding Injected as Positional Encoding:** The generated $$E_i$$ is **directly added to each unit's spike activity window**:
 
 $$Z_i = X_i + E_i$$
 
-Here $X_i$ is unit $i$'s binned spike counts in the current decoding window, and $Z_i$ is the identity-aware representation. Note that $E_i$ remains constant across all time windows within the same session—it encodes the unit's **stable identity** (similar to how position encoding in traditional Transformers encodes token position), while $X_i$ carries **time-varying activity**. This additive injection makes $Z_i$ simultaneously contain both "who is firing" (identity) and "what was fired" (activity) information.
+Here $$X_i$$ is unit $$i$$'s binned spike counts in the current decoding window, and $$Z_i$$ is the identity-aware representation. Note that $$E_i$$ remains constant across all time windows within the same session—it encodes the unit's **stable identity** (similar to how position encoding in traditional Transformers encodes token position), while $$X_i$$ carries **time-varying activity**. This additive injection makes $$Z_i$$ simultaneously contain both "who is firing" (identity) and "what was fired" (activity) information.
 
-Subsequently, $Z_i$ is projected via MLP to cross-attention's input space, decoded to behavior predictions by **learnable behavior query matrix** $Q \in \mathbb{R}^{B \times W}$ through single-layer cross-attention:
+Subsequently, $$Z_i$$ is projected via MLP to cross-attention's input space, decoded to behavior predictions by **learnable behavior query matrix** $$Q \in \mathbb{R}^{B \times W}$$ through single-layer cross-attention:
 
 $$\hat{Y}_t = \text{MLP}_{out}(\text{CrossAttn}(Q, \text{LN}(Z_{in}), \text{LN}(Z_{in})))$$
 
@@ -997,7 +997,7 @@ The entire architecture mathematically guarantees **permutation invariance**:
 
 $$\text{CrossAttn}(Q, P_R Z, P_R Z) = \text{CrossAttn}(Q, Z, Z)$$
 
-where $P_R$ is an arbitrary row permutation matrix. Output is identical regardless of neuron ordering. Additionally, SPINT employs **dynamic channel dropout** to enhance robustness to composition changes of neurons across sessions.
+where $$P_R$$ is an arbitrary row permutation matrix. Output is identical regardless of neuron ordering. Additionally, SPINT employs **dynamic channel dropout** to enhance robustness to composition changes of neurons across sessions.
 
 **Cross-Session Transfer with Zero Gradient:** For unseen sessions, simply run the trained IDEncoder in forward pass on calibration data to infer all units' identity embeddings—no gradient updates or labeled data needed.
 
@@ -1008,7 +1008,7 @@ where $P_R$ is an arbitrary row permutation matrix. Output is identical regardle
 - Lightweight design (single cross-attention layer + two three-layer MLPs), suitable for real-time BCI
 
 **Disadvantages:**
-- Spatial attention has $O(N^2)$ complexity in neuron count N, potentially bottleneck for large-scale recordings
+- Spatial attention has $$O(N^2)$$ complexity in neuron count N, potentially bottleneck for large-scale recordings
 - Underlying still depends on binning, loses fine temporal information
 - Currently validated only at smaller scales
 
@@ -1025,9 +1025,9 @@ All spikes within time window (50ms current window + 150ms history) → arranged
 
 Each spike token's embedding is additively composed of three parts:
 
-$$\mathbf{h}_i = E_{tok}(\text{neuron\_id}_i) + E_{pos}(i) + E_{temp}(\Delta t_i)$$
+$$\mathbf{h}_i = E_{tok}(\text{neuron_id}_i) + E_{pos}(i) + E_{temp}(\Delta t_i)$$
 
-where $E_{tok}$ is neuron ID embedding table (`nn.Embedding`), $E_{pos}$ is learnable position embedding (encoding position index in sequence), and $E_{temp}$ defaults to **sinusoidal temporal embedding** (encoding continuous time offset value $\Delta t$, not learnable embedding). Alternative learnable temporal embedding is optional, but code defaults to sinusoidal encoding.
+where $$E_{tok}$$ is neuron ID embedding table (`nn.Embedding`), $$E_{pos}$$ is learnable position embedding (encoding position index in sequence), and $$E_{temp}$$ defaults to **sinusoidal temporal embedding** (encoding continuous time offset value $$\Delta t$$, not learnable embedding). Alternative learnable temporal embedding is optional, but code defaults to sinusoidal encoding.
 
 Neuroformer's complete architecture is a **multimodal system** including: neural token embedding stem (the spike encoding described above), optional visual backbone (VideoEncoder/ResNet3D/ViT), MultimodalTransformer (handling neural-visual cross-modal attention), CLIP module (optional cross-modal contrastive learning), and independent head_id (predicting next neuron ID) and head_dt (predicting time offset) prediction heads.
 
@@ -1037,7 +1037,7 @@ Neuroformer's complete architecture is a **multimodal system** including: neural
 - **High interpretability**: Attention weights directly reflect functional coupling between neurons; paper found attention maps mirror Hebbian connectivity
 
 **Disadvantages:**
-- No PerceiverIO-style compression; high firing rate populations incur large computation ($O(L^2)$)
+- No PerceiverIO-style compression; high firing rate populations incur large computation ($$O(L^2)$$)
 - neuron_id is fixed vocabulary; weakest cross-session capability
 - Autoregressive token-by-token inference is slow
 
@@ -1057,7 +1057,7 @@ POYO's Per-Spike Token and Neuroformer's Spike Event Pairs appear very similar o
 |------|----------------------|-------------------------------|
 | Temporal Encoding | RoPE (absolute continuous timestamp) | Sinusoidal/Learnable (relative offset) |
 | Identity Encoding | InfiniteVocabEmbedding (dynamic) | nn.Embedding (fixed vocabulary) |
-| Sequence Compression | PerceiverIO (fixed latent) | No compression ($O(L^2)$ attention) |
+| Sequence Compression | PerceiverIO (fixed latent) | No compression ($$O(L^2)$$ attention) |
 | Model Paradigm | Discriminative decoder | Generative autoregressive |
 | Training Objective | MSE (behavior variables) | CE (next spike) + contrastive learning |
 | Cross-Session | Learnable embedding + gradient update | Fixed vocabulary, weakest |
@@ -1071,7 +1071,7 @@ In summary, Per-Spike Token and Spike Event Pairs can be viewed as two different
 |------|----------------|----------|-----------------|-------------|
 | Temporal Precision | ★★☆☆☆ (20ms) | ★★★★★ (ms-level) | ★★☆☆☆ (bin-dependent) | ★★★★☆ (discrete within window) |
 | Sparsity Handling | ★★☆☆☆ | ★★★★★ | ★★★☆☆ | ★★★★★ |
-| Computational Efficiency | ★★★★★ (fixed length) | ★★★★☆ (with compression) | ★★★☆☆ ($O(N^2)$) | ★★☆☆☆ (no compression) |
+| Computational Efficiency | ★★★★★ (fixed length) | ★★★★☆ (with compression) | ★★★☆☆ ($$O(N^2)$$) | ★★☆☆☆ (no compression) |
 | Neuron Correspondence | ★★☆☆☆ | ★★★☆☆ | ★★★★★ (SPINT) | ★★☆☆☆ |
 | Generative Capability | ★★★☆☆ (reconstruction) | ★☆☆☆☆ | ★☆☆☆☆ | ★★★★★ |
 | Interpretability | ★★★☆☆ | ★★★☆☆ | ★★★★☆ | ★★★★★ |
@@ -1092,9 +1092,9 @@ Temporal position encoding determines how the model perceives token positions on
 
 $$PE_{(pos, 2i)} = \sin\left(\frac{pos}{10000^{2i/d}}\right), \quad PE_{(pos, 2i+1)} = \cos\left(\frac{pos}{10000^{2i/d}}\right)$$
 
-Injection method is **additive**: $\mathbf{h}_t \leftarrow \mathbf{h}_t + PE(t)$. NDT1 also supports learnable position embedding (`nn.Embedding`). STNDT's two streams each have independent sinusoidal position encodings—temporal PE with dimension $D_T = N$ and sequence length $T$; spatial PE with dimension $D_S = T$ and sequence length $N$.
+Injection method is **additive**: $$\mathbf{h}_t \leftarrow \mathbf{h}_t + PE(t)$$. NDT1 also supports learnable position embedding (`nn.Embedding`). STNDT's two streams each have independent sinusoidal position encodings—temporal PE with dimension $$D_T = N$$ and sequence length $$T$$; spatial PE with dimension $$D_S = T$$ and sequence length $$N$$.
 
-Neuroformer [[14]](#ref14)'s temporal encoding also defaults to **sinusoidal functions** (`TemporalEmbedding`), but encodes **continuous time offset values** $\Delta t$ (not discrete indices), optionally paired with learnable temporal embedding. Additionally Neuroformer has independent learnable position embedding (`nn.Parameter`) encoding position indices within sequences.
+Neuroformer [[14]](#ref14)'s temporal encoding also defaults to **sinusoidal functions** (`TemporalEmbedding`), but encodes **continuous time offset values** $$\Delta t$$ (not discrete indices), optionally paired with learnable temporal embedding. Additionally Neuroformer has independent learnable position embedding (`nn.Parameter`) encoding position indices within sequences.
 
 **Learnable Position/Temporal Embedding.** MtM [[7]](#ref7) uses learnable position embedding (`nn.Embedding`), injected additively to spike tokens. NDT3 [[6]](#ref6) supports both learnable time embedding (additive injection) and Rotary PE (injection within attention layer) modes, plus a learnable **spatial embedding** (`nn.Embedding`) to distinguish positions of different spatial patches within the same timestep. NEDS [[8]](#ref8) also uses learnable temporal embedding.
 
@@ -1102,7 +1102,7 @@ Neuroformer [[14]](#ref14)'s temporal encoding also defaults to **sinusoidal fun
 
 $$\text{RoPE}(x_{2i-1}, x_{2i}, t) = \begin{pmatrix} x_{2i-1} \cos(\omega_i t) - x_{2i} \sin(\omega_i t) \\ x_{2i-1} \sin(\omega_i t) + x_{2i} \cos(\omega_i t) \end{pmatrix}$$
 
-where $\omega_i = 2\pi / T_i$ with $T_i$ log-uniformly distributed on $[T_{min}, T_{max}]$ (default $T_{min}=10^{-4}$, $T_{max}\approx 2.06$). Only rotates half of head dimensions (default 32 of head_dim=64), leaving the other half unchanged. NDT3's RoPE encodes **discrete timestep indices**.
+where $$\omega_i = 2\pi / T_i$$ with $$T_i$$ log-uniformly distributed on $$[T_{min}, T_{max}]$$ (default $$T_{min}=10^{-4}$$, $$T_{max}\approx 2.06$$). Only rotates half of head dimensions (default 32 of head_dim=64), leaving the other half unchanged. NDT3's RoPE encodes **discrete timestep indices**.
 
 **Summary of Temporal Encoding Across Projects:**
 
@@ -1113,7 +1113,7 @@ where $\omega_i = 2\pi / T_i$ with $T_i$ log-uniformly distributed on $[T_{min},
 | NDT2 | No explicit temporal encoding | — | — |
 | NDT3 | Learnable time emb / Rotary PE + Learnable spatial emb | Discrete timestep + spatial position | Additive / Attention rotation |
 | POYO/POSSM | Rotary PE | Continuous timestamp (seconds) | Attention rotation |
-| Neuroformer | Sinusoidal temporal emb (default) + Learnable position emb | Continuous $\Delta t$ + sequence index | Additive |
+| Neuroformer | Sinusoidal temporal emb (default) + Learnable position emb | Continuous $$\Delta t$$ + sequence index | Additive |
 | MtM | Learnable position emb | Discrete timestep index | Additive |
 | NEDS | Learnable temporal emb | Discrete timestep | Additive |
 
@@ -1121,19 +1121,19 @@ where $\omega_i = 2\pi / T_i$ with $T_i$ log-uniformly distributed on $[T_{min},
 
 This is the most critical embedding choice, directly determining the model's cross-session capability.
 
-**Implicit Positional Encoding (Dimensional Position in Population Vector).** NDT1 [[2]](#ref2)'s linear projection $W_{in} \in \mathbb{R}^{D \times N}$ implicitly maps each neuron to a specific direction in embedding space. The $i$-th neuron's spike count always multiplies the $i$-th column of $W_{in}$. This means neuron identity is completely determined by input dimension position—switching sessions changes dimension meanings.
+**Implicit Positional Encoding (Dimensional Position in Population Vector).** NDT1 [[2]](#ref2)'s linear projection $$W_{in} \in \mathbb{R}^{D \times N}$$ implicitly maps each neuron to a specific direction in embedding space. The $$i$$-th neuron's spike count always multiplies the $$i$$-th column of $$W_{in}$$. This means neuron identity is completely determined by input dimension position—switching sessions changes dimension meanings.
 
-**Learnable Unit Embeddings.** POYO [[4]](#ref4)/POYO+ [[9]](#ref9) use `InfiniteVocabEmbedding`, assigning learnable embedding vectors $e_n \in \mathbb{R}^D$ to each neural unit. Support dynamic vocabulary expansion; new units in new sessions can register at runtime. New sessions require freezing the backbone and relearning embeddings via gradient descent. CaPOYO's unit embedding is half-dimensional ($D/2$), concatenated with value map.
+**Learnable Unit Embeddings.** POYO [[4]](#ref4)/POYO+ [[9]](#ref9) use `InfiniteVocabEmbedding`, assigning learnable embedding vectors $$e_n \in \mathbb{R}^D$$ to each neural unit. Support dynamic vocabulary expansion; new units in new sessions can register at runtime. New sessions require freezing the backbone and relearning embeddings via gradient descent. CaPOYO's unit embedding is half-dimensional ($$D/2$$), concatenated with value map.
 
 **Neuron ID Embedding Table.** Neuroformer [[14]](#ref14) uses fixed-size `nn.Embedding`, mapping neuron_id to vectors. Vocabulary determined at training time, limiting cross-session capability.
 
-**Context-Dependent Positional Embedding / IDEncoder.** SPINT [[10]](#ref10)'s core innovation (detailed in [Section 3.3](#33-neuron-as-token-以神经元为-token)). Dynamically infers unit identity embedding $E_i$ from unlabeled calibration data through shared dual-MLP network and adds it **as positional encoding** to spike activity. These embeddings reflect each neuron's functional role in the current session (such as firing rate patterns, temporal correlation characteristics, etc.) rather than fixed channel indices.
+**Context-Dependent Positional Embedding / IDEncoder.** SPINT [[10]](#ref10)'s core innovation (detailed in [Section 3.3](#33-neuron-as-token-以神经元为-token)). Dynamically infers unit identity embedding $$E_i$$ from unlabeled calibration data through shared dual-MLP network and adds it **as positional encoding** to spike activity. These embeddings reflect each neuron's functional role in the current session (such as firing rate patterns, temporal correlation characteristics, etc.) rather than fixed channel indices.
 
 **Session/Context Tokens.** NDT2 [[5]](#ref5) introduces learnable session embedding, subject embedding, and task embedding. Injection methods are: (1) **Token strategy**: prepend as additional tokens to sequence start, with flag parameters as type indicators; (2) **Concat strategy**: concatenate to each token embedding then project. NDT3 [[6]](#ref6) further adds phase tokens (BCI vs. native control) and return tokens (controller quality, Decision Transformer style).
 
 **Session Embedding + Prompt Token.** MtM [[7]](#ref7) uses session embedding (`nn.Embedding`) and prompt embedding (one for each of 4 masking modes). Injection method is **sequence prefix token**—prompt token at first position, session token at second position, allowing the model to know current session and masking task type by reading sequence start tokens.
 
-**Session-Specific Projection.** NEDS [[8]](#ref8) learns independent linear projections $W_{neural} \in \mathbb{R}^{N_{session} \times D}$ for each session, handling different neuron counts across sessions. All tokens also get modality embedding and session embedding.
+**Session-Specific Projection.** NEDS [[8]](#ref8) learns independent linear projections $$W_{neural} \in \mathbb{R}^{N_{session} \times D}$$ for each session, handling different neuron counts across sessions. All tokens also get modality embedding and session embedding.
 
 ### 4.3 Detailed Embedding Injection Flow for Each Project
 
@@ -1274,15 +1274,15 @@ Loss functions define training objectives and directly impact representation qua
 
 $$\mathcal{L}_{Poisson} = -\sum_{t,n} \left[ y_{t,n} \cdot \log(\lambda_{t,n}) - \lambda_{t,n} - \log(y_{t,n}!) \right]$$
 
-where $y_{t,n}$ is true spike count and $\lambda_{t,n}$ is model-predicted Poisson rate (ensured positive via softplus). Poisson NLL is chosen because spike counts are non-negative integers with variance approximately equal to mean, making Poisson distribution a reasonable generative model assumption. Limitations are that real neural data often exhibits over-dispersion (variance > mean) and gradient signals are weak in low count regions.
+where $$y_{t,n}$$ is true spike count and $$\lambda_{t,n}$$ is model-predicted Poisson rate (ensured positive via softplus). Poisson NLL is chosen because spike counts are non-negative integers with variance approximately equal to mean, making Poisson distribution a reasonable generative model assumption. Limitations are that real neural data often exhibits over-dispersion (variance > mean) and gradient signals are weak in low count regions.
 
 **Poisson-Softened Cross-Entropy.** NDT3 [[6]](#ref6)'s choice—this isn't standard categorical cross-entropy but an improved version using **Poisson PMF as soft targets**. After discretizing spike counts, target distribution isn't one-hot vectors but Poisson PMF with true count as mean:
 
 $$\mathcal{L} = -\sum_{k=0}^{K} q_k \log p_k, \quad q_k = \frac{e^{-y} y^k / k!}{\sum_{j=0}^{K} e^{-y} y^j / j!}$$
 
-When $y=0$, $q_0 = 1$ (degenerates to one-hot); when $y=3$, $q$ spreads probability near $k=2,3,4$. This design makes predicting "2 vs 3" less costly than "0 vs 3." NDT3 code supports both standard Poisson NLL and Poisson-softened CE as spike loss, selected via configuration.
+When $$y=0$$, $$q_0 = 1$$ (degenerates to one-hot); when $$y=3$$, $$q$$ spreads probability near $$k=2,3,4$$. This design makes predicting "2 vs 3" less costly than "0 vs 3." NDT3 code supports both standard Poisson NLL and Poisson-softened CE as spike loss, selected via configuration.
 
-**Neuron ID + Temporal Cross-Entropy.** Neuroformer [[14]](#ref14)'s autoregressive loss. Predicts which neuron the next spike comes from (neuron ID classification) and when it fires (time offset classification): $\mathcal{L} = \mathcal{L}_{neuron\_id} + \mathcal{L}_{temporal}$. This is the only loss design driving generative capability.
+**Neuron ID + Temporal Cross-Entropy.** Neuroformer [[14]](#ref14)'s autoregressive loss. Predicts which neuron the next spike comes from (neuron ID classification) and when it fires (time offset classification): $$\mathcal{L} = \mathcal{L}_{neuron_id} + \mathcal{L}_{temporal}$$. This is the only loss design driving generative capability.
 
 **MSE (Mean Squared Error).** All supervised approaches (POYO [[4]](#ref4), POSSM [[13]](#ref13), SPINT [[10]](#ref10)) use MSE for predicting continuous behavior variables (such as hand velocity). NDT2/NDT3 also use MSE during fine-tuning. NEDS uses MSE for continuous behavior variable reconstruction.
 
@@ -1294,7 +1294,7 @@ When $y=0$, $q_0 = 1$ (degenerates to one-hot); when $y=3$, $q$ spreads probabil
 
 $$\mathcal{L}_{contrastive} = -\log\frac{\exp(\text{sim}(z_i, z_j)/\tau)}{\sum_k \exp(\text{sim}(z_i, z_k)/\tau)}$$
 
-In actual code implementation STNDT calls this `info_nce_loss` with default temperature $\tau=0.07$. Total loss is $\mathcal{L} = \mathcal{L}_{masked\_recon} + \lambda \cdot \mathcal{L}_{contrastive}$, with $\lambda$ defaulting to $10^{-8}$.
+In actual code implementation STNDT calls this `info_nce_loss` with default temperature $$\tau=0.07$$. Total loss is $$\mathcal{L} = \mathcal{L}_{masked_recon} + \lambda \cdot \mathcal{L}_{contrastive}$$, with $$\lambda$$ defaulting to $$10^{-8}$$.
 
 **InfoNCE / CLIP Loss.** Used by Neuroformer [[14]](#ref14) for aligning neural embedding and stimulus embedding. Actually supports two implementations: (1) **unidirectional contrastive_loss** (simplified InfoNCE); (2) **symmetric clip_loss** (CLIP-style bidirectional cross-entropy). Selection via configuration. Both losses support contrastive learning between multimodal pairs.
 
