@@ -83,3 +83,30 @@
 **如何解决**：在 `_layouts/post.html` 中添加条件式 MathJax 3 CDN 加载，front matter 加 `math: true` 的博文才会载入。
 
 **还要做什么**：无（所有任务已完成）。
+
+---
+
+## 2026-02-22 23:30
+
+**做了什么**：
+
+1. 排查 GitHub Pages 部署失败问题：发现 run #6 起 build job 因 Ruby 3.1.6 gem 安装失败而报错，deploy 被跳过，网站内容未更新
+2. 修复 `.github/workflows/jekyll.yml`：升级 Ruby 3.1 → 3.3、更新 `ruby/setup-ruby` 到 v1、`cache-version` 0 → 1 强制清缓存
+3. 在 `_config.yml` 添加 `future: true`，防止 UTC 时区导致当日文章被 Jekyll 判定为"未来文章"
+4. 更新 `CLAUDE.md`：
+   - 新增"Push 后验证部署"规范（必须确认 GitHub Actions build + deploy 都成功）
+   - 更新 `post.html` 和博客 front matter 的文档（MathJax / `math: true`）
+
+**效果如何**：run #10（commit 08f50f8）55 秒完成，build + deploy 均成功。博客页面 `/blog/2026/02/22/spike-foundation-models/` 和主页均正常显示更新内容。
+
+**是否遇到问题**：
+
+1. GitHub Actions runs #6-#9 的 build job 全部失败（Ruby 3.1.6 gem 安装错误），但 Actions 列表页面显示 ✓ 有误导性
+2. 快速连续 push 4 次导致中间 commits 的 workflow 被 concurrency 规则取消，仅最后一次 run 实际执行
+
+**如何解决**：
+
+1. 升级 Ruby 3.1 → 3.3（与本地一致）+ 清除 bundler 缓存（cache-version 递增）
+2. 在 CLAUDE.md 中加入部署验证规范，避免今后遗漏
+
+**还要做什么**：无。

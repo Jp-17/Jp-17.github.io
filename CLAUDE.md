@@ -12,7 +12,7 @@
 - **主要文件结构**：
   - `_config.yml` — Jekyll 核心配置（permalink / plugins 等）
   - `_layouts/default.html` — 基础布局（导航栏 + 页脚）
-  - `_layouts/post.html` — 博客文章布局（含 CN/EN 切换）
+  - `_layouts/post.html` — 博客文章布局（含 CN/EN 切换；`math: true` 时加载 MathJax）
   - `assets/css/style.scss` — 全站样式（自定义，不依赖外部框架）
   - `assets/js/lang-toggle.js` — 博客 CN/EN 语言切换逻辑
   - `index.html` — About Me 主页
@@ -63,6 +63,7 @@ title_cn: "中文标题"
 title_en: "English Title"
 date: YYYY-MM-DD
 bilingual: true    # 若为双语文章则设为 true；纯中文/英文文章可省略
+math: true         # 若文章含 LaTeX 公式则设为 true，会加载 MathJax
 ---
 ```
 
@@ -142,6 +143,15 @@ git push origin master
 ```
 
 > 注意：每次 push 后 GitHub Pages 会自动重新构建部署，通常 1-2 分钟后生效。
+
+### 4. Push 后验证部署（必须遵守）
+
+每次 push 到 `origin master` 后，**必须验证 GitHub Actions 部署是否成功**，部署成功后才算任务完成：
+
+1. 等待约 60 秒后，访问 `https://github.com/Jp-17/Jp-17.github.io/actions` 查看最新 workflow run 状态
+2. 确认 build job **实际成功**（注意：run 列表显示 ✓ 不一定代表真正成功，需检查 run 详情中 build 和 deploy 两个 job 是否都成功；耗时 < 20s 的 run 通常是失败/跳过）
+3. 确认部署生效：访问 `https://jp-17.github.io/` 检查内容是否更新
+4. 如果部署失败，**必须排查原因并修复**，直到部署成功后才能结束任务
 
 ---
 
