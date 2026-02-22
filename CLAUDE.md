@@ -13,7 +13,7 @@
   - `_config.yml` — Jekyll 核心配置（permalink / plugins 等）
   - `_layouts/default.html` — 基础布局（导航栏 + 页脚）
   - `_layouts/post.html` — 博客文章布局（含 CN/EN 切换）
-  - `assets/css/style.css` — 全站样式（自定义，不依赖外部框架）
+  - `assets/css/style.scss` — 全站样式（自定义，不依赖外部框架）
   - `assets/js/lang-toggle.js` — 博客 CN/EN 语言切换逻辑
   - `index.html` — About Me 主页
   - `blog.html` — 博客列表页（permalink: /blog/）
@@ -44,7 +44,7 @@ bundle install
 - **边框**：细线（1px）、低对比度（`#e2e8f0`），无阴影或仅极轻阴影
 - **不引入 CSS 框架**（Bootstrap、Tailwind 等），保持样式文件的精简
 
-修改样式时，**优先编辑 `assets/css/style.css`**，避免内联样式扩散。
+修改样式时，**优先编辑 `assets/css/style.scss`**，避免内联样式扩散。
 
 ---
 
@@ -84,11 +84,20 @@ bilingual: true    # 若为双语文章则设为 true；纯中文/英文文章�
 
 ## 工作规范
 
+### 0. 执行任务前（必须遵守）
+
+**每次开始执行任务前，必须先阅读 `PROGRESS.md`**，了解之前的工作记录、遗留问题和下一步计划，避免重复劳动或遗漏上下文。
+
+### 3. 任务完成后检查 CLAUDE.md（必须遵守）
+
+每次任务完成后，**检查本文件"项目概览"部分是否已过时**——包括文件结构、技术栈、注意事项等，若有变化则立即更新，保持 CLAUDE.md 与实际项目状态一致。
+
 ### 1. 进度文档更新（必须遵守）
 
 每完成一个小任务（或任务阶段），**必须立即更新进度文档** `PROGRESS.md`（若不存在则创建）。
 
 进度文档格式要求：
+
 - 使用 Markdown 格式
 - 语言：中文
 - 每条记录包含：
@@ -142,4 +151,4 @@ git push origin master
 - 图片请放在 `images/` 目录下，引用路径为 `images/xxx.jpg`（在 HTML 中用 `{{ '/images/xxx.jpg' | relative_url }}`）
 - 不要随意修改 `Gemfile` 或 `Gemfile.lock`，除非明确需要更新依赖
 - 本项目无测试套件，修改后通过本地 `bundle exec jekyll serve` 预览验证
-- 修改 `_layouts/` 或 `assets/css/style.css` 时，需重启 `jekyll serve` 才能生效（CSS 热重载，但 layout 变更需重启）
+- 修改 `_layouts/` 或 `assets/css/style.scss` 时，需重启 `jekyll serve` 才能生效（CSS 热重载，但 layout 变更需重启）

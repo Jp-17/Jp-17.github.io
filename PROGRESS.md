@@ -5,6 +5,7 @@
 ## 2026-02-22 17:00
 
 **做了什么**：对网站进行全面重构，包括以下工作：
+
 1. 检查并同步本地仓库与远程（`git pull`，拉取了 `.github/workflows/jekyll.yml`）
 2. 将原有 `sproogen/resume-theme` 全部内容存档至 `references/original_site_content.md`
 3. 重写 `_config.yml`，移除远程主题，改为自定义 Jekyll 配置
@@ -24,6 +25,37 @@
 **如何解决**：使用 `brew install poppler` 安装后，改用 `pdftotext` 命令提取 PDF 文本。
 
 **还要做什么**：
-- 验证 GitHub Actions 构建是否成功
-- 检查部署后的网站效果（https://jp-17.github.io/）
+
+- ~~验证 GitHub Actions 构建是否成功~~（已完成，见下次记录）
+- ~~检查部署后的网站效果~~（已完成）
 - 按需调整样式细节和内容
+
+---
+
+## 2026-02-22 18:30
+
+**做了什么**：修复 GitHub Actions 构建失败问题，具体：
+
+1. 删除 `assets/main.scss`（`sproogen/resume-theme` 残留，导致"File to import not found: modern-resume-theme"错误）
+2. 将 `assets/css/style.css` 重命名为 `assets/css/style.scss`，添加 Jekyll front matter（`---`），并加 `@charset "UTF-8";`——覆盖 `jekyll-theme-primer 0.6.0` 自带的 `style.scss`，解决 SASS 3.7.4 的 US-ASCII 编码错误
+3. 删除 `_config.yml` 中冗余配置，将 `vendor/` 加入 exclude 列表
+4. 删除 `.claude/worktrees/` 目录（Claude Code 并行任务产生的临时文件，无用）
+5. 提交并推送（commit `386c2b9`）
+
+**效果如何**：GitHub Actions 构建成功，网站正常部署。About 页面显示 Brain Foundation Model 等研究兴趣、教育/经历时间轴；Blog 页面正确列出 Spike 神经基础模型博文（中英文双语）。
+
+**是否遇到问题**：
+
+1. Jekyll 扫描 `vendor/bundle/` 目录，尝试处理 gem 内部的 `.markdown.erb` 文件，导致日期解析错误
+2. `assets/main.scss` 导入 `modern-resume-theme`（已移除），构建失败
+3. `jekyll-theme-primer 0.6.0` 提供 `assets/css/style.scss`，其 SCSS 包含 UTF-8 字符，而 SASS 3.7.4 默认 US-ASCII 编码，导致编码错误
+
+**如何解决**：
+
+1. 在 `_config.yml` 的 `exclude` 列表中加入 `vendor/` 和 `vendor/bundle/`
+2. `git rm assets/main.scss`
+3. 将 `style.css` 改为 `style.scss`（含 front matter 和 `@charset "UTF-8"`），覆盖 theme 的同名文件
+
+**还要做什么**：
+
+- 按需优化样式细节和页面内容
