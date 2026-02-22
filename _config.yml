@@ -13,11 +13,6 @@ author:
 # Permalinks
 permalink: /blog/:year/:month/:day/:title/
 
-# Collections
-collections:
-  posts:
-    output: true
-
 # Exclude from build
 exclude:
   - Gemfile
@@ -38,4 +33,3 @@ kramdown:
 
 plugins:
   - jekyll-seo-tag
-  - jekyll-feed
