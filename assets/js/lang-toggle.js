@@ -24,6 +24,9 @@
     document.querySelectorAll('.lang-btn').forEach(function (btn) {
       btn.classList.toggle('active', btn.dataset.lang === lang);
     });
+
+    // Rebuild TOC for active language
+    if (typeof window.rebuildTOC === 'function') window.rebuildTOC();
   }
 
   // Init on page load

@@ -339,6 +339,56 @@ section h2 {
 }
 
 /* =====================================================
+   Blog Post TOC
+   ===================================================== */
+.post-toc {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.75rem 1rem 0.75rem 1.1rem;
+  margin-bottom: 2rem;
+}
+
+.post-toc-label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--fg-muted);
+  margin-bottom: 0.5rem;
+}
+
+.post-toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.toc-item {
+  margin-bottom: 0.2rem;
+  line-height: 1.45;
+}
+
+.toc-item a {
+  font-size: 0.85rem;
+  color: var(--fg);
+  text-decoration: none;
+}
+.toc-item a:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.toc-h3 {
+  padding-left: 1rem;
+}
+.toc-h3 a {
+  font-size: 0.825rem;
+  color: var(--fg-muted);
+}
+
+/* =====================================================
    Blog Post Page
    ===================================================== */
 .post-header {

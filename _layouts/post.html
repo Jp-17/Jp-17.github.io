@@ -17,10 +17,73 @@ layout: default
     </div>
   </header>
 
+  <nav class="post-toc" id="post-toc" aria-label="Table of contents"></nav>
+
   <div class="post-body">
     {{ content }}
   </div>
 </article>
+
+<script>
+(function () {
+  function getCurrentLang() {
+    if (document.querySelector('.lang-cn.active')) return 'cn';
+    if (document.querySelector('.lang-en.active')) return 'en';
+    return null;
+  }
+
+  function getHeadingContainer() {
+    var lang = getCurrentLang();
+    if (lang) return document.querySelector('.lang-' + lang + '.active');
+    return document.querySelector('.post-body');
+  }
+
+  function ensureId(el, idx) {
+    if (!el.id) {
+      var base = el.textContent.trim()
+        .replace(/\s+/g, '-')
+        .replace(/[^\w\u4e00-\u9fff-]/g, '')
+        .substring(0, 40);
+      el.id = base || ('toc-' + idx);
+    }
+    return el.id;
+  }
+
+  function buildTOC() {
+    var toc = document.getElementById('post-toc');
+    if (!toc) return;
+    var container = getHeadingContainer();
+    if (!container) return;
+
+    var headings = Array.prototype.slice.call(container.querySelectorAll('h2, h3'));
+    if (headings.length < 2) { toc.style.display = 'none'; return; }
+
+    toc.style.display = '';
+    headings.forEach(function (h, i) { ensureId(h, i); });
+
+    var label = getCurrentLang() === 'en' ? 'Contents' : '目录';
+    var html = '<span class="post-toc-label">' + label + '</span><ul class="post-toc-list">';
+    headings.forEach(function (h) {
+      var cls = h.tagName === 'H3' ? ' toc-h3' : '';
+      html += '<li class="toc-item' + cls + '"><a href="#' + h.id + '">'
+            + h.textContent.trim() + '</a></li>';
+    });
+    html += '</ul>';
+    toc.innerHTML = html;
+  }
+
+  window.rebuildTOC = buildTOC;
+
+  // Non-bilingual posts: build on load (bilingual posts: lang-toggle.js will call rebuildTOC)
+  if (!document.querySelector('.lang-cn, .lang-en')) {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', buildTOC);
+    } else {
+      buildTOC();
+    }
+  }
+})();
+</script>
 
 {% if page.bilingual %}
 <script src="{{ '/assets/js/lang-toggle.js' | relative_url }}"></script>
