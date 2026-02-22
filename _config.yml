@@ -1,203 +1,40 @@
 # Site
 repository: Jp-17/Jp-17.github.io
-favicon: images/favicon.ico
+title: Peng Jiang
+description: PhD student in Computational Neuroscience at Tsinghua University
+url: "https://jp-17.github.io"
+baseurl: ""
 
-# Content configuration version
-version: 2
+# Author
+author:
+  name: Peng Jiang
+  email: jiang-p21@mails.tsinghua.edu.cn
 
-# Personal info
-name: Peng Jiang (蒋 鹏)
-title: PhD student in Tsinghua University
-email: jiang-p21@mails.tsinghua.edu.cn
-website: https://jp-17.github.io/
-wechat: jp21_bird
+# Permalinks
+permalink: /blog/:year/:month/:day/:title/
 
-# Dark Mode (true/false/never)
-darkmode: never
+# Collections
+collections:
+  posts:
+    output: true
 
-# Social links
-twitter_username: jiangp21
-github_username:  Jp-17
-# stackoverflow_username: "00000001"
-# dribbble_username: jekyll
-# facebook_username: jekyll
-# flickr_username: jekyll
-# instagram_username: jameswgrant
-# linkedin_username: jameswgrant
-# xing_username: jekyll
-# pinterest_username: jekyll
-# youtube_username: globalmtb
-# googleplus_username: +jekyll
-# orcid_username: 0000-0000-0000-0000
-
-# Additional icon links
-# additional_links:
-# - title: itsgoingto.be
-#   icon: fas fa-globe
-#   url: https://www.itsgoingto.be
-# - title: another link
-#   icon: font awesome brand icon name (eg. fab fa-twitter) (https://fontawesome.com/icons?d=gallery&m=free)
-#   url: Link url (eg. https://google.com)
-
-# Google Analytics and Tag Manager
-# Using more than one of these may cause issues with reporting
-# gtm: "GTM-0000000"
-# gtag: "UA-00000000-0"
-# google_analytics: "UA-00000000-0"
-
-# About Section
-about_title: About Me
-about_profile_image: images/me1.jpg
-about_content: | # this will include new lines to allow paragraphs
-  Hi, I am Peng Jiang, a PhD student in Tsinghua University, Beijing, China. 
-  
-  My research interests include multitask learning & lifelong learning, task compositionality & generalization, neural representation & representation alignment, brain & LLM, and mechanistic interpretability. 
-  
-  I am curious about how can the intelligent systems (brain & LLM) can retain learned knowledge from previous tasks and use it to facilitate future learning. To further understand this, I am currently working on studying task representation from the perspective of task compositionality, which I believe is a promising approach to explain generalization.  Additionally, I hope to discover the similar underlying mechanisms of multitask representation in brain & LLM.
-
-content:
-
-  - title: Education # Title for the section
-    layout: list # Type of content section (list/text)
-    content:
-      - layout: left
-        title: Tsinghua University
-        caption: 2021 - now
-        sub_title: PhD candicate, Computational Neuroscience
-        description: | # this will include new lines to allow paragraphs
-          I am supervised by Prof. Xiaoxuan Jia in [Neural coding lab](https://jiaxx.github.io/). 
-          In Jiaxx lab, I have explored different topics: visual coding, dimensionality reduction, neural dynamics, communication subspace across brain areas, RNN etc.
-          Now I'm focusing on understanding multitask representation in the view of task compositionality in different learning systems (brain & LLM). 
-        quote: >
-          At the neural coding lab, we seek to understand how information is represented and processed in the brain to support flexible perception and behavior. Our research lies at the intersection of neuroscience, machine learning and psychology.
-        
-      - layout: left
-        title: Tsinghua University
-        caption: 2017 - 2021
-        sub_title: BSc, Major in Life Sciences, Minor in Computer Science
-        # quote: >
-        #   Established in 1636, Harvard is the oldest higher education institution in the United States, and is widely regarded in terms of its influence, reputation, and academic pedigree as a leading university in not just the US but also the world.
-        
-        description: | # this will include new lines to allow paragraphs
-          In [Wei Zhang lab](https://life.tsinghua.edu.cn/info/1035/1267.htm), I studied neural mechanism of social space behaviour of drosophila and tried to develop a new tools for inhibiting function of single synapse.
-
-          In [Bo Hong lab](http://neuro.med.tsinghua.edu.cn/), I completed my undergraduate thesis project, "Construct spiking neural network model for information communication between the hippocampus and the temporal lobe".
-
-  - title: Projects # Title for the section
-    layout: list # Type of content section (list/text)
-    content:
-      - layout: top-middle
-        title: Task Representation Project
-        # link: github.com/sproogen
-        # link_text: Project Website
-        # additional_links:
-        #   - title:  sproogen/modern-resume-theme
-        #     icon: fab fa-github
-        #     url: github.com/sproogen/modern-resume-theme
-          # - title:  Github page for project (eg. sproogen/modern-resume-theme)
-          #   icon: fab fa-github
-          #   url: Link to project (eg. sproogen.github.io/modern-resume-theme)
-        quote: >
-          Discover the essence of intelligence, abstraction and generalization.
-        description: | # this will include new lines to allow paragraphs
-          <div style="text-align: center;">
-            <img src="images/proj_2.png" alt="proj" style="width: 400px; height: auto;">
-          </div>
-
-          To understand the updating and reuse of knowledge in lifelong learning, it is essential to grasp how learning systems represent the relatedness of tasks. 
-          The foundational ideas include:
-          - Multitask representation can be decomposed into sparse, independent features, with each task represented by a combination of different features. 
-          - Upon learning a new task, the system may utilize existing sparse features or introduce new ones.
-
-          Further topics include:
-          - In the brain
-            - Does the brain utilize a similar mechanism to represent task relatedness?
-            - Is there a communication subspace spanned by shared task features across brain areas for information transfer?
-          - In LLM:
-            - Do LLMs utilize a similar mechanism to represent task relatedness?
-            - How can we bridge multitask representation between the parameter space and activation space?
-
-
-  - title: Experience # Title for the section
-    layout: list # Type of content section (list/text)
-    content:
-      - layout: left
-        title: Neural Match Academy
-        # link: https://compneuro.neuromatch.io/tutorials/intro.html
-        # link_text: boringcompany.com
-        sub_title: Summer School
-        # caption: July 2022
-        # quote: >
-        #   Solving 21st century problems by diging holes and making game changing products like the *not a flamethrower*
-        description: | # this will include new lines to allow paragraphs
-            - [Computational Neuroscience](https://compneuro.neuromatch.io/tutorials/intro.html) July 2022
-
-              - I have learned the basic knowledge of computational neuroscience and how to use it to understand the brain.
-              Besides, we have a group project to study "Hidden state dynamics in visual cortex and motor cortex using steinmetz dataset".
-
-            - [Deep learning](https://deeplearning.neuromatch.io/tutorials/intro.html) July 2023
-
-              - I have learned the basic knowledge of deep learning and how to use it to solve real world problems.
-              Besides, we have a group project to study "Exploring representational similarity between brain and LLM".
-
-      - layout: left
-        title: Neural Coding Lab
-        # link: boringcompany.com
-        # link_text: boringcompany.com
-        sub_title: Computational Neuroscience
-        # caption: November 2017 - Present
-        # quote: >
-        #   Solving 21st century problems by diging holes and making game changing products like the *not a flamethrower*
-        description: | # this will include new lines to allow paragraphs
-            - Explore [Visual Coding - Neuropixels](https://portal.brain-map.org/explore/circuits/visual-coding-neuropixels) dataset from Allen Institute to study neural dynamics and information flow across brain areas.
-            - Construct multi-areas RNN model for multiple tasks learning to study hierarchy processing of task representation for flexible computation. 
-
-
-
-  - title: Some Other Intersts
-    layout: text
-    content: | # this will include new lines to allow paragraphs
-
-      <table>
-        <tr>
-          <!-- Image in the left cell -->
-          <td style="vertical-align: middle; text-align: center;">
-            <img src="images/skiing.jpg" alt="skiing" style="width: 300px; height: auto;">
-          </td>
-          
-          <!-- Content in the right cell with increased font size -->
-          <td style="font-size: 10px;"> <!-- Adjust the pixel size as needed -->
-            <ul>
-              <li><strong>Explore knowledge</strong>
-                <ul>
-                  <li>Consciousness</li>
-                  <li>World Model</li>
-                  <li>Brain Decoding</li>
-                  <li>AGI</li>
-                </ul>
-              </li>
-              <li><strong>Enjoy life</strong>
-                <ul>
-                  <li>Tennis</li>
-                  <li>Skiing</li>
-                  <li>Photography</li>
-                </ul>
-              </li>
-            </ul>
-          </td>
-        </tr>
-      </table>
-
-# Footer
-footer_show_references: true
-references_title: Neural Coding Lab
+# Exclude from build
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - references/
+  - tool.ipynb
+  - .claude/
+  - CLAUDE.md
+  - PROGRESS.md
+  - LICENSE
+  - "*.sh"
 
 # Build settings
-remote_theme: sproogen/resume-theme
-
-sass:
-  sass_dir: _sass
-  style: compressed
+markdown: kramdown
+kramdown:
+  input: GFM
 
 plugins:
- - jekyll-seo-tag
+  - jekyll-seo-tag
+  - jekyll-feed

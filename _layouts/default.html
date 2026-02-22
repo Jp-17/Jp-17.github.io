@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if page.title %}{{ page.title }} — {% endif %}Peng Jiang</title>
+  <meta name="description" content="{{ page.description | default: site.description }}">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+  <link rel="icon" href="{{ '/images/favicon.ico' | relative_url }}">
+  {% seo %}
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a class="nav-name" href="{{ '/' | relative_url }}">Peng Jiang</a>
+      <ul class="nav-links">
+        <li><a href="{{ '/' | relative_url }}"{% if page.url == '/' %} class="active"{% endif %}>About</a></li>
+        <li><a href="{{ '/blog' | relative_url }}"{% if page.url contains '/blog' or page.layout == 'post' %} class="active"{% endif %}>Blog</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    {{ content }}
+  </main>
+
+  <footer>
+    <p>© {{ site.time | date: '%Y' }} Peng Jiang
+      · <a href="mailto:jiang-p21@mails.tsinghua.edu.cn">Email</a>
+      · <a href="https://github.com/Jp-17" target="_blank">GitHub</a>
+    </p>
+  </footer>
+</body>
+</html>

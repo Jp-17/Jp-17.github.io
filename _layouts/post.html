@@ -1,0 +1,27 @@
+---
+layout: default
+---
+
+<article>
+  <header class="post-header">
+    <h1 class="post-title post-title-cn">{{ page.title_cn | default: page.title }}</h1>
+    <h1 class="post-title post-title-en">{{ page.title_en | default: page.title }}</h1>
+    <div class="post-meta">
+      <span class="post-date-display">{{ page.date | date: "%Y-%m-%d" }}</span>
+      {% if page.bilingual %}
+      <div class="lang-toggle" role="group" aria-label="Language selector">
+        <button class="lang-btn" data-lang="cn" onclick="setLang('cn')">CN</button>
+        <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+      </div>
+      {% endif %}
+    </div>
+  </header>
+
+  <div class="post-body">
+    {{ content }}
+  </div>
+</article>
+
+{% if page.bilingual %}
+<script src="{{ '/assets/js/lang-toggle.js' | relative_url }}"></script>
+{% endif %}
