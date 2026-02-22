@@ -59,3 +59,27 @@
 **还要做什么**：
 
 - 按需优化样式细节和页面内容
+
+---
+
+## 2026-02-22 22:00
+
+**做了什么**：
+
+1. 将 `references/蒋鹏-cv.pdf` 添加到 `.gitignore`，避免 PDF 被 git 追踪
+2. 为博客 post 布局（`_layouts/post.html`）添加条件式 MathJax 加载（front matter 中设 `math: true` 即启用）
+3. 将博客文件从 `_posts/2025-01-20-spike-foundation-models.md` 重命名为 `_posts/2026-02-22-spike-foundation-models.md`，front matter 日期同步更新
+4. 中文博客内容全部替换为 `references/spike_foundation_models_blog_cn.md`（更完整、含参考文献和公式）
+5. 英文博客内容全部替换为 `references/spike_foundation_models_blog_en.md`（对应完整英文版）
+6. 更新主页 `index.html`：
+   - About 部分新增一段，说明当前研究方向（Brain Foundation Model、brain encoding/decoding、real-time interactive digital humans）
+   - Now 部分展开 Brain Foundation Model 内容：encoding 侧理解多模态神经编码机制，decoding 侧用通用神经表征完成视觉解码（image/video reconstruction）
+7. 分三次提交并 push 到 `origin master`
+
+**效果如何**：所有修改成功提交，GitHub Pages 自动构建中（1-2 分钟后生效）。博客 URL 将变为 `https://jp-17.github.io/blog/2026/02/22/spike-foundation-models/`。
+
+**是否遇到问题**：新博客内容含大量 LaTeX 公式，原布局无 MathJax，需额外添加。
+
+**如何解决**：在 `_layouts/post.html` 中添加条件式 MathJax 3 CDN 加载，front matter 加 `math: true` 的博文才会载入。
+
+**还要做什么**：无（所有任务已完成）。
