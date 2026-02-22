@@ -18,6 +18,8 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - vendor/
+  - vendor/bundle/
+  - _site/
   - references/
   - tool.ipynb
   - .claude/
