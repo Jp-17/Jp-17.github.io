@@ -22,6 +22,7 @@ collections:
 exclude:
   - Gemfile
   - Gemfile.lock
+  - vendor/
   - references/
   - tool.ipynb
   - .claude/
