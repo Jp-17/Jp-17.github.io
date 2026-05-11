@@ -2,6 +2,21 @@
 
 ---
 
+## 2026-05-11 16:50
+
+**做了什么**：
+
+1. 更新 `CLAUDE.md` 中的本地构建说明，补充当前实际可用的 Ruby/Bundler 环境
+2. 在“项目概览”中新增本地构建环境说明：优先使用 Homebrew `ruby@3.3`
+3. 重写“常用命令”部分，明确记录 `export PATH="/opt/homebrew/opt/ruby@3.3/bin:$PATH"`、`bundle exec jekyll build`、`bundle exec jekyll serve --host 127.0.0.1 --port 4000`
+4. 补充系统 Ruby 2.6 误用时的排查方法（`which ruby` / `which bundle`）
+
+**效果如何**：`CLAUDE.md` 已与当前本机可用的构建方式保持一致，后续执行本地编译时不再依赖隐含环境假设。
+
+**是否遇到问题**：无。
+
+**还要做什么**：提交并 push 本次文档更新，随后验证 GitHub Actions 部署是否成功。
+
 ## 2026-05-11 16:45
 
 **做了什么**：

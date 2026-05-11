@@ -9,6 +9,7 @@
 - **项目类型**：个人学术主页（GitHub Pages 静态网站）
 - **技术栈**：Jekyll + 自定义主题（无第三方远程主题）
 - **部署方式**：推送到 `master` 分支后，GitHub Actions 自动构建并发布到 `https://jp-17.github.io/`
+- **本地构建环境**：优先使用 Homebrew 安装的 `ruby@3.3`（本机实测 `ruby 3.3.10`）和 `bundler 2.7.1`，避免误用 macOS 系统自带 Ruby 2.6
 - **主要文件结构**：
   - `_config.yml` — Jekyll 核心配置（permalink / plugins 等）
   - `_layouts/default.html` — 基础布局（导航栏 + 页脚）
@@ -24,12 +25,31 @@
 ## 常用命令
 
 ```bash
-# 本地预览（需要提前安装 Ruby & Bundler）
-bundle exec jekyll serve
+# 进入正确的本地 Ruby 环境（推荐每次构建前先执行）
+export PATH="/opt/homebrew/opt/ruby@3.3/bin:$PATH"
+
+# 确认版本（本机当前可用组合）
+ruby -v        # 预期为 ruby 3.3.x
+bundle -v      # 预期为 Bundler 2.7.1
 
 # 安装依赖
 bundle install
+
+# 本地构建
+bundle exec jekyll build
+
+# 本地预览
+bundle exec jekyll serve --host 127.0.0.1 --port 4000
 ```
+
+如果直接执行 `bundle exec jekyll build` / `serve` 报错，先检查是否误用了系统 Ruby：
+
+```bash
+which ruby
+which bundle
+```
+
+若输出为 `/usr/bin/ruby` 或 `/usr/bin/bundle`，说明当前仍在使用 macOS 自带 Ruby 2.6，需要先执行上面的 `export PATH=...` 再重新构建。
 
 ---
 
@@ -160,5 +180,6 @@ git push origin master
 - `references/` 目录已在 `_config.yml` 的 `exclude` 中，**不会被部署到网站**，用于存放本地资料
 - 图片请放在 `images/` 目录下，引用路径为 `images/xxx.jpg`（在 HTML 中用 `{{ '/images/xxx.jpg' | relative_url }}`）
 - 不要随意修改 `Gemfile` 或 `Gemfile.lock`，除非明确需要更新依赖
-- 本项目无测试套件，修改后通过本地 `bundle exec jekyll serve` 预览验证
+- 本项目无测试套件，修改后通过本地 `bundle exec jekyll serve --host 127.0.0.1 --port 4000` 预览验证
+- 本地构建前优先执行 `export PATH="/opt/homebrew/opt/ruby@3.3/bin:$PATH"`，避免系统 Ruby 2.6 与 `Gemfile.lock` 中的 `bundler 2.7.1` 不匹配
 - 修改 `_layouts/` 或 `assets/css/style.scss` 时，需重启 `jekyll serve` 才能生效（CSS 热重载，但 layout 变更需重启）
