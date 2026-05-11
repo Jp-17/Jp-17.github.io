@@ -2,6 +2,21 @@
 
 ---
 
+## 2026-05-11 17:53
+
+**做了什么**：
+
+1. 更新 `index.html` 的 `Academic Experience` 部分，在 `2022 – 2024 Multi-task Neural Representation Research` 下方新增一条 2026 学术工作记录
+2. 新增论文条目 `NeuroHorizon: Long-Horizon Forward Prediction of Neural Population Activity via Autoregressive Decoding with Hierarchical Memory`
+3. 在条目中标注 `Submitted to NeurIPS 2026 · Under review`，并根据用户提供摘要整理为适合 About 页面阅读的三段简介
+4. 使用 `ruby@3.3` 环境执行 `bundle exec jekyll build`，确认 `_site/index.html` 已生成新条目
+
+**效果如何**：About 页面 `Academic Experience` 时间线中已新增 `NeuroHorizon` 条目，内容包含投稿状态、方法概述与实验结论。
+
+**是否遇到问题**：无。
+
+**还要做什么**：提交并 push 本次主页学术经历更新，随后验证 GitHub Actions 部署是否成功。
+
 ## 2026-05-11 16:56
 
 **做了什么**：

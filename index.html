@@ -83,6 +83,31 @@ title: About
         </ul>
       </div>
     </div>
+    <div class="timeline-item">
+      <div class="timeline-date">2026</div>
+      <div class="timeline-body">
+        <h3>NeuroHorizon: Long-Horizon Forward Prediction of Neural Population Activity via Autoregressive Decoding with Hierarchical Memory</h3>
+        <p class="org">Submitted to NeurIPS 2026 · Under review</p>
+        <p>
+          This work studies forward prediction of neural population activity, a core requirement for
+          closed-loop brain-computer interfaces and a stringent test of whether learned neural dynamics
+          remain stable when a model conditions on its own prior predictions.
+        </p>
+        <p>
+          We introduce <em>NeuroHorizon</em>, an encoder-decoder architecture that combines event-level
+          spike tokenization with an autoregressive causal decoder for population-level firing-rate prediction.
+          A hierarchical tail+segment memory preserves recent predictions at high resolution while compressing
+          longer prediction history, and scheduled sampling reduces the mismatch between teacher-forced training
+          and autoregressive rollout.
+        </p>
+        <p>
+          On a multi-horizon motor-cortex benchmark, with additional motor- and visual-cortex datasets for
+          scaling and cross-population transfer, the model consistently outperforms strong baselines and remains
+          stable under multi-step rollout where prior approaches collapse, supporting long-horizon neural
+          forecasting for closed-loop BCI and multi-step neural-state prediction.
+        </p>
+      </div>
+    </div>
   </div>
 </section>
 
