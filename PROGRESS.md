@@ -2,6 +2,21 @@
 
 ---
 
+## 2026-05-11 18:08
+
+**做了什么**：
+
+1. 调整 `index.html` 中 `Entrepreneurship` 部分的 `Co-Founder & Algorithm Lead` 条目
+2. 将原来的单段正文改为与上方经历条目一致的 `<ul>` 列表格式
+3. 列表内容压缩为三条：休学创业背景、实时交互数字人系统方向、负责的 3DGS 与音频驱动算法 pipeline
+4. 使用 `ruby@3.3` 环境执行 `bundle exec jekyll build`，确认 `_site/index.html` 中已生成新的列表结构
+
+**效果如何**：`Co-Founder & Algorithm Lead` 条目现在和上方经历条目在字体大小、结构和列举方式上保持一致。
+
+**是否遇到问题**：无。
+
+**还要做什么**：提交并 push 本次格式调整，随后验证 GitHub Actions 部署是否成功。
+
 ## 2026-05-11 17:59
 
 **做了什么**：
