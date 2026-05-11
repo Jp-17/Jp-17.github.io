@@ -2,6 +2,21 @@
 
 ---
 
+## 2026-05-11 17:59
+
+**做了什么**：
+
+1. 调整 `index.html` 中 `NeuroHorizon` 学术经历条目的正文结构
+2. 将原来的三段长段落改为与 `Multi-task Neural Representation Research` 一致的 `<ul>` 列表格式
+3. 保留标题和 `Submitted to NeurIPS 2026 · Under review` 状态行，列表压缩为三条核心内容
+4. 使用 `ruby@3.3` 环境执行 `bundle exec jekyll build`，确认 `_site/index.html` 中已生成新的列表结构
+
+**效果如何**：`NeuroHorizon` 条目现在和上一条学术经历在字体大小、结构和列举方式上保持一致，页面更简洁。
+
+**是否遇到问题**：无。
+
+**还要做什么**：提交并 push 本次格式调整，随后验证 GitHub Actions 部署是否成功。
+
 ## 2026-05-11 17:53
 
 **做了什么**：
