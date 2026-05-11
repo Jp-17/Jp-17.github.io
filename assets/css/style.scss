@@ -411,9 +411,21 @@ section h2 {
   gap: 0.5rem;
 }
 
+.post-meta-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
 .post-date-display {
   font-size: 0.85rem;
   color: var(--fg-muted);
+}
+
+.post-note-display {
+  font-size: 0.78rem;
+  color: var(--fg-muted);
+  line-height: 1.45;
 }
 
 /* Language toggle buttons */

@@ -7,7 +7,17 @@ layout: default
     <h1 class="post-title post-title-cn">{{ page.title_cn | default: page.title }}</h1>
     <h1 class="post-title post-title-en">{{ page.title_en | default: page.title }}</h1>
     <div class="post-meta">
-      <span class="post-date-display">{{ page.date | date: "%Y-%m-%d" }}</span>
+      <div class="post-meta-text">
+        <span class="post-date-display">{{ page.date | date: "%Y-%m-%d" }}</span>
+        {% if page.author_note_cn or page.author_note_en %}
+          {% if page.bilingual %}
+          <span class="post-note-display lang-cn">{{ page.author_note_cn }}</span>
+          <span class="post-note-display lang-en">{{ page.author_note_en }}</span>
+          {% else %}
+          <span class="post-note-display">{{ page.author_note_cn | default: page.author_note_en }}</span>
+          {% endif %}
+        {% endif %}
+      </div>
       {% if page.bilingual %}
       <div class="lang-toggle" role="group" aria-label="Language selector">
         <button class="lang-btn" data-lang="cn" onclick="setLang('cn')">CN</button>

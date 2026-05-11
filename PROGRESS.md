@@ -2,6 +2,21 @@
 
 ---
 
+## 2026-05-11 16:56
+
+**做了什么**：
+
+1. 为 `_posts/2026-02-22-spike-foundation-models.md` 新增中英文说明字段 `author_note_cn` / `author_note_en`
+2. 更新 `_layouts/post.html`，在博客日期下方按语言渲染作者说明小字
+3. 更新 `assets/css/style.scss`，为日期说明添加更小号的次级文本样式
+4. 使用 `ruby@3.3` 环境执行 `bundle exec jekyll build`，并检查 `_site/blog/2026/02/22/spike-foundation-models/index.html`，确认中英文说明均已生成
+
+**效果如何**：`Spike Neural Foundation Models` 这篇双语博客在日期下方新增了一行说明，中文视图显示“作者与 AI 交流并审核后的内容”，英文视图显示对应英文说明。
+
+**是否遇到问题**：无。
+
+**还要做什么**：提交并 push 本次博客说明文字更新，随后验证 GitHub Actions 部署是否成功。
+
 ## 2026-05-11 16:50
 
 **做了什么**：

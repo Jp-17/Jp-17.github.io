@@ -6,6 +6,8 @@ title_en: "Spike Neural Foundation Models: A Complete Technical Survey of Tokeni
 date: 2026-02-22
 bilingual: true
 math: true
+author_note_cn: "作者与 AI 交流并审核后的内容"
+author_note_en: "Content created through author-AI collaboration and reviewed by the author"
 ---
 
 <div class="lang-cn" markdown="1">
