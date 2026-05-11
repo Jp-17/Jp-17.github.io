@@ -2,6 +2,20 @@
 
 ---
 
+## 2026-05-11 18:36
+
+**做了什么**：
+
+1. 检查用户对 `index.html` 的最新修改，确认改动为 About 段落研究目标表述微调
+2. 使用 `ruby@3.3` 环境执行 `bundle exec jekyll build`，重新生成 `_site`
+3. 检查 `_site/index.html`，确认新句子 `how information is represented and encoded in the brain` 已生成
+
+**效果如何**：本地 Jekyll 构建成功，首页静态产物已更新。
+
+**是否遇到问题**：无。
+
+**还要做什么**：提交并 push 本次主页文案修改，随后验证 GitHub Actions 部署是否成功。
+
 ## 2026-05-11 18:22
 
 **做了什么**：
