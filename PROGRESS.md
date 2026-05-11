@@ -2,6 +2,24 @@
 
 ---
 
+## 2026-05-11 16:45
+
+**做了什么**：
+
+1. 阅读 `CLAUDE.md` 和 `PROGRESS.md`，确认本项目使用 Jekyll，推送到 `master` 后由 GitHub Actions 自动部署
+2. 检查仓库状态，确认本次待发布内容来自用户已修改的 `index.html`
+3. 使用 Homebrew 已安装的 `ruby@3.3` 环境执行 `bundle exec jekyll build`，成功重新生成 `_site`
+4. 启动本地预览服务 `bundle exec jekyll serve --host 127.0.0.1 --port 4000`
+5. 通过 `curl -I http://127.0.0.1:4000/` 验证本地首页可正常访问（HTTP 200）
+
+**效果如何**：本地构建成功，预览服务已启动，可通过 `http://127.0.0.1:4000/` 查看修改后的主页效果。
+
+**是否遇到问题**：直接使用系统 Ruby 2.6 执行 `bundle exec jekyll build` 时失败，原因是项目锁文件要求 `bundler 2.7.1`，而系统环境不匹配。
+
+**如何解决**：切换到机器上已安装的 `ruby@3.3` 与对应 `bundle 2.7.1` 后重新构建，问题解决。
+
+**还要做什么**：提交并 push 本次主页修改，随后验证 GitHub Actions 部署是否成功。
+
 ## 2026-02-23 10:30
 
 **做了什么**：修复博客文章目录（TOC）三个问题：
