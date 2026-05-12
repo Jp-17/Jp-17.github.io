@@ -32,6 +32,7 @@
 \setstretch{1.08}
 \hyphenpenalty=10000
 \exhyphenpenalty=10000
+\emergencystretch=2em
 
 \newcommand{\cvsection}[1]{%
   \par\vspace{1.15em}
@@ -92,36 +93,38 @@
 \endgroup
 
 \cvsection{研究方向}
-\noindent\textbf{关键词：}Neural Foundation Model，Neural Encoding \& Decoding，World Model，Neural Representation。\\[0.25em]
-\noindent\textbf{当前研究：}聚焦神经基础模型、神经编码与解码和世界模型，探索大规模预训练模型如何模拟、理解世界并解码神经活动。
+\noindent\textbf{关键词：}Neural Foundation Model，Neural Encoding \& Decoding，World Model，Neural Representation \\[0.25em]
+\noindent\textbf{当前研究：}聚焦neural foundation model的研究，探索如何构建大规模神经预训练模型，并利用其进行神经编码与解码的相关工作。
 
 \cvsection{学术经历}
-\cvitem{2022--2024}{清华大学\quad Neural Coding Lab}
-\cvsubitem{多任务神经表征研究}
+\cvitem{2022--2024}{多任务学习的神经表征分析研究}
+\cvsubitem{清华大学\quad 生命科学学院\quad 贾晓轩实验室}
 \begin{cvitemize}
-  \item 使用小鼠侵入式 Neuropixels 记录数据分析跨脑区的多任务神经表征。
-  \item 构建多脑区 RNN 模型，研究灵活认知中的层级任务表征。
-  \item 通过 LoRA 微调大语言模型的持续学习实验，研究任务表征的组合泛化。
+  \item 借助 PCA/CCA 等表征降维手段，对不同视觉脑区神经活动在低维空间进行可视化，分析小鼠视觉编码的神经动力学特征；
+  \item 构建 RNN 模型模拟不同脑区完成多种认知任务，并通过 fixed point analysis 来研究网络本身的动力学表征及其完成任务的机制；
+  \item 微调训练大语言模型进行多种认知任务的持续学习，通过分析大模型本身的权重和神经元激活特征的稀疏分解，来研究任务的关系是否会呈现出组合泛化的表征形式。
 \end{cvitemize}
 
 \cvitem{2026}{NeuroHorizon: Long-Horizon Forward Prediction of Neural Population Activity via Autoregressive Decoding with Hierarchical Memory}
-\cvsubitem{Submitted to NeurIPS 2026 · Under review}
+\cvsubitem{Peng Jiang, Xiaoxuan Jia\textsuperscript{*} · Submitted to NeurIPS 2026 · Under review}
 \begin{cvitemize}
-  \item 研究神经群体活动的长时程前向预测问题。
-  \item 开发结合事件级 spike tokenization 与分层 tail+segment memory 的自回归编码器-解码器模型。
-  \item 在运动皮层与视觉皮层数据集上评估多步 rollout 的稳定性、扩展性与泛化能力。
+  \item 明确模型在神经活动的长时程前向预测上不同的评估模式：rollout \& teacher-forcing;
+  \item 开发一个神经活动预测模型，结合 POYO-like spike encoding model 与整合tail+segment 分层memory 机制的 decoder 模块;
+  \item 在多个数据集上评估我们长时程条件下多步 rollout 预测的稳定性，以及模型的 scaling \& generalization 的能力。
 \end{cvitemize}
 
 \cvsection{项目经历}
-\cvitem{2024--2025}{联合创始人-算法负责\quad 休学创业}
-\cvsubitem{实时音频驱动交互式数字人}
+\cvitem{2024--2025}{基于 3DGS 的实时音频驱动数字人}
+\cvsubitem{空间漫步（深圳）科技有限公司\quad 联合创始人-算法负责(休学创业)}
 \begin{cvitemize}
-  \item 休学参与创业，探索实时交互式数字人方向。
-  \item 构建基于 3D Gaussian Splatting（3DGS）的实时音频驱动数字人系统。
-  \item 维护完整算法管线，包括多相机采集校准、3DGS 头部重建和 diffusion-based 音频到表情驱动。
+  \item 基于单目视频进行人物3D模型重建的优化，包括 flame tracking 和 3dgs model的优化；
+  \item 改进基于 diffusion model 为框架的音频驱动模型，提高驱动模型的生动性和准确性。
 \end{cvitemize}
 
-\cvitem{2023.06}{清华大学大模型应用设计挑战赛}
-\cvsubitem{NeuroGPT 项目，92 支队伍中获得第四名。}
+\cvitem{2023.06}{NeuroGPT 项目}
+\cvsubitem{清华大学大模型应用设计挑战赛 · 第4名/共94支队伍}
+\begin{cvitemize}
+  \item 以多模态大语言模型作为信息的中转，通过脑电解码语义后再映射解码为动作/操控等信息，从而赋能医疗/教育/娱乐等广泛场景。
+\end{cvitemize}
 
 \end{document}
