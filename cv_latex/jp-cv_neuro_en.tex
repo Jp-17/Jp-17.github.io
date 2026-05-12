@@ -5,6 +5,7 @@
 \usepackage[a4paper,margin=1.6cm]{geometry}
 \usepackage{fontspec}
 \usepackage{hyperref}
+\usepackage{xcolor}
 \usepackage{setspace}
 \usepackage{tabularx}
 \usepackage{graphicx}
@@ -17,25 +18,18 @@
 }
 
 \defaultfontfeatures{Ligatures=TeX}
-\setmainfont{Songti SC}
+\setmainfont{Times New Roman}
 \setsansfont{PingFang SC}
-
-\XeTeXlinebreaklocale "zh"
-\XeTeXlinebreakskip = 0pt plus 1pt
-
-\newcommand{\cvsection}[1]{%
-  \par\vspace{1.05em}%
-  \noindent{\large\bfseries #1}\par\vspace{0.45em}\hrule\vspace{0.85em}%
-}
-\newenvironment{cvitemize}{%
-  \begin{itemize}%
-  \setlength{\itemsep}{0.25em}%
-  \setlength{\topsep}{0.25em}%
-  \setlength{\parskip}{0pt}%
-}{\end{itemize}}
 
 \pagestyle{empty}
 \setstretch{1.08}
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+
+\newcommand{\cvsection}[1]{%
+  \par\vspace{1.15em}
+  \noindent{\large\bfseries #1}\par\vspace{0.25em}\hrule\vspace{0.75em}
+}
 
 \newcommand{\cvitem}[2]{%
   \par\vspace{1em}
@@ -45,7 +39,17 @@
   \end{tabularx}%
   \par\vspace{0.5em}
 }
-\newcommand{\cvsubitem}[1]{\par\vspace{0.25em}\noindent #1\\[-0.4em]}
+
+\newcommand{\cvsubitem}[1]{\par\vspace{0.25em}\noindent{\itshape #1}\\[-0.4em]}
+\newenvironment{cvitemize}{%
+  \begin{itemize}%
+  \setlength{\leftmargin}{1.6em}%
+  \setlength{\itemsep}{0.25em}%
+  \setlength{\topsep}{0.25em}%
+  \setlength{\parsep}{0pt}%
+  \setlength{\parskip}{0pt}%
+}{\end{itemize}}
+
 \newcommand{\cvphoto}{jp-1-revised.png}
 
 \begin{document}
@@ -57,8 +61,8 @@
     \vspace*{-5.8em}
     {\LARGE\bfseries Peng Jiang}\\[0.8em]
     \textbf{Phone:} 13161911011\\
-    \textbf{Email:}\href{mailto:jiang-p21@mails.tsinghua.edu.cn}{jiang-p21@mails.tsinghua.edu.cn}\\
-    \textbf{Homepage:}\href{https://jp-17.github.io/}{https://jp-17.github.io/}\\
+    \textbf{Email:} \href{mailto:jiang-p21@mails.tsinghua.edu.cn}{jiang-p21@mails.tsinghua.edu.cn}\\
+    \textbf{Homepage:} \href{https://jp-17.github.io/}{https://jp-17.github.io/}\\
   \end{minipage}
   &
   \centering\raisebox{3.8em}{\includegraphics[width=2.8cm]{\cvphoto}}
@@ -75,45 +79,41 @@
   \end{tabularx}%
   \par\vspace{0.15em}
 }
-\cvitem{2017.08--2021.06}{Tsinghua University\quad School of Life Sciences\quad B.Sc. in Biological Sciences}
-\cvitem{2018.08--2021.06}{Tsinghua University\quad Department of Computer Science and Technology\quad Minor in Computer Applications}
-\cvitem{2021.08--present}{Tsinghua University\quad School of Life Sciences\quad PhD Student in Computational Neuroscience}
+\cvitem{2021.08--present}{Tsinghua University\quad PhD Student in Computational Neuroscience\quad Supervisor: Xiaoxuan Jia}
+\cvitem{2017.08--2021.06}{Tsinghua University\quad B.Sc. in Life Sciences\quad Minor in Computer Science}
 \endgroup
 
+\cvsection{Research Interests}
+\noindent\textbf{Keywords:} Brain Foundation Model; Brain Encoding \& Decoding; World Model; Neural Representation.\\[0.25em]
+\noindent\textbf{Current focus:} Large-scale pre-trained models for neural spiking data, neural encoding and decoding, and world models that simulate and understand the world.
+
 \cvsection{Academic Experience}
-\cvitem{2022.03--2024.09}{Tsinghua University\quad School of Life Sciences\quad Supervisor: Xiaoxuan Jia}
-\cvsubitem{\textit{Comparing neural representations of brains and foundation models in multi-task learning}}
+\cvitem{2022--2024}{Neural Coding Lab\quad Tsinghua University}
+\cvsubitem{Multi-task Neural Representation Research}
 \begin{cvitemize}
-  \item Collected large-scale neural activity from different mouse visual brain areas with invasive Neuropixels probes, and performed low-dimensional representation extraction and neural dynamics analysis.
-  \item Built recurrent neural network (RNN) models to simulate multi-area execution of multiple cognitive decision tasks and study the resulting dynamical representations.
-  \item Fine-tuned large language models with LoRA or full-parameter updates for multi-task continual learning, studying compositional generalization across tasks.
+  \item Analyzed multi-task neural representations across brain regions using invasive Neuropixels recordings.
+  \item Built multi-area RNN models to study hierarchical task representation in flexible cognition.
+  \item Studied compositional generalization via continual learning with LoRA fine-tuning of LLMs.
 \end{cvitemize}
 
-\cvitem{2026}{NeuroHorizon: Long-Horizon Neural Activity Forecasting with Hierarchical Memory}
-\cvsubitem{\textit{Submitted to NeurIPS 2026 · Under review}}
+\cvitem{2026}{NeuroHorizon: Long-Horizon Forward Prediction of Neural Population Activity via Autoregressive Decoding with Hierarchical Memory}
+\cvsubitem{Submitted to NeurIPS 2026 · Under review}
 \begin{cvitemize}
   \item Studied long-horizon forward prediction of neural population activity.
-  \item Built an autoregressive encoder-decoder model with event-level spike tokenization\\
-        and hierarchical tail+segment memory.
-  \item Evaluated multi-step rollout stability and generalization on motor-cortex and visual-cortex datasets.
+  \item Developed an autoregressive encoder-decoder with spike tokenization and hierarchical memory.
+  \item Evaluated multi-step rollout stability across motor- and visual-cortex datasets.
 \end{cvitemize}
 
 \cvsection{Project Experience}
-
-\cvitem{2024.09--2025.12}{Space Walk (Shenzhen) Technology Co., Ltd.\quad Co-Founder and Algorithm Lead (startup leave)}
-\cvsubitem{\textit{Real-time audio-driven digital human based on 3DGS}}
+\cvitem{2024--2025}{Co-Founder and Algorithm Lead\quad Startup · Leave of absence from PhD}
+\cvsubitem{Real-time audio-driven interactive digital human}
 \begin{cvitemize}
-  \item Built a multi-camera capture system and handled calibration and preprocessing, including intrinsic/extrinsic calibration and color calibration.
-  \item Improved the character video processing pipeline by adding a sapiens-based tooth-segmentation loss in the track pipeline and cleaning / unifying data to reduce identity inconsistency and train-test distribution mismatch.
-  \item Reworked the open-source audio2flame driving stack with flow matching and DiT to improve motion realism.
-  \item Based on an open-source FLAME-based 3DGS model, fixed camera-scale issues in the monocular setting and improved reconstruction robustness through Gaussian opacity and density tuning.
+  \item Took a leave of absence from PhD study to co-found a startup.
+  \item Built a real-time, audio-driven interactive digital human system based on 3D Gaussian Splatting (3DGS).
+  \item Maintained the pipeline for capture calibration, 3DGS reconstruction, and audio-to-expression driving.
 \end{cvitemize}
 
 \cvitem{2023.06}{Tsinghua University LLM Application Design Challenge}
-\cvsubitem{\textit{NeuroGPT project, 4th place among 92 teams}}
-\begin{cvitemize}
-  \item Led the team in designing NeuroGPT, using semantics decoded from neural activity with an LLM as the information transformation hub to control downstream applications.
-  \item Focused on the path from neural semantic decoding to application-level control in interactive systems.
-\end{cvitemize}
+\cvsubitem{NeuroGPT project, 4th place among 92 teams.}
 
 \end{document}

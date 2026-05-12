@@ -5,6 +5,7 @@
 \usepackage[a4paper,margin=1.6cm]{geometry}
 \usepackage{fontspec}
 \usepackage{hyperref}
+\usepackage{xcolor}
 \usepackage{setspace}
 \usepackage{tabularx}
 \usepackage{graphicx}
@@ -17,25 +18,25 @@
 }
 
 \defaultfontfeatures{Ligatures=TeX}
-\setmainfont{Songti SC}
+\setmainfont[
+  BoldFont={Songti SC Bold},
+  ItalicFont={Kaiti SC}
+]{Songti SC}
 \setsansfont{PingFang SC}
+\newfontfamily\latinfont{Times New Roman}
 
 \XeTeXlinebreaklocale "zh"
 \XeTeXlinebreakskip = 0pt plus 1pt
 
-\newcommand{\cvsection}[1]{%
-  \par\vspace{1.05em}%
-  \noindent{\large\bfseries #1}\par\vspace{0.45em}\hrule\vspace{0.85em}%
-}
-\newenvironment{cvitemize}{%
-  \begin{itemize}%
-  \setlength{\itemsep}{0.25em}%
-  \setlength{\topsep}{0.25em}%
-  \setlength{\parskip}{0pt}%
-}{\end{itemize}}
-
 \pagestyle{empty}
 \setstretch{1.08}
+\hyphenpenalty=10000
+\exhyphenpenalty=10000
+
+\newcommand{\cvsection}[1]{%
+  \par\vspace{1.15em}
+  \noindent{\large\bfseries #1}\par\vspace{0.25em}\hrule\vspace{0.75em}
+}
 
 \newcommand{\cvitem}[2]{%
   \par\vspace{1em}
@@ -45,7 +46,17 @@
   \end{tabularx}%
   \par\vspace{0.5em}
 }
-\newcommand{\cvsubitem}[1]{\par\vspace{0.25em}\noindent #1\\[-0.4em]}
+
+\newcommand{\cvsubitem}[1]{\par\vspace{0.25em}\noindent{\itshape #1}\\[-0.4em]}
+\newenvironment{cvitemize}{%
+  \begin{itemize}%
+  \setlength{\leftmargin}{1.6em}%
+  \setlength{\itemsep}{0.25em}%
+  \setlength{\topsep}{0.25em}%
+  \setlength{\parsep}{0pt}%
+  \setlength{\parskip}{0pt}%
+}{\end{itemize}}
+
 \newcommand{\cvphoto}{jp-1-revised.png}
 
 \begin{document}
@@ -75,44 +86,42 @@
   \end{tabularx}%
   \par\vspace{0.15em}
 }
-\cvitem{2017.08--2021.06}{清华大学\quad 生命科学学院\quad 生物科学-学士学位}
-\cvitem{2018.08--2021.06}{清华大学\quad 计算机科学与技术系\quad 计算机应用-辅修}
-\cvitem{2021.08--现在}{清华大学\quad 生命科学学院\quad 计算神经科学博士生}
+\cvitem{2017.08--2021.06}{清华大学\quad 生命科学学院\quad 学士学位}
+\cvitem{2018.08--2021.06}{清华大学\quad 计算机科学与技术系\quad 本科辅修}
+\cvitem{2021.08--现在}{清华大学\quad 生命科学学院\quad 计算神经科学博士生\quad 导师：贾晓轩}
 \endgroup
 
+\cvsection{研究方向}
+\noindent\textbf{关键词：}Neural Foundation Model，Neural Encoding \& Decoding，World Model，Neural Representation。\\[0.25em]
+\noindent\textbf{当前研究：}聚焦神经基础模型、神经编码与解码和世界模型，探索大规模预训练模型如何模拟、理解世界并解码神经活动。
+
 \cvsection{学术经历}
-\cvitem{2022.03--2024.09}{清华大学\quad 生命科学学院\quad 导师：贾晓轩}
-\cvsubitem{\textit{大脑与大模型的多任务学习神经表征比较}}
+\cvitem{2022--2024}{清华大学\quad Neural Coding Lab}
+\cvsubitem{多任务神经表征研究}
 \begin{cvitemize}
-  \item 使用侵入式 Neuropixels 电极采集小鼠不同视觉脑区的大规模神经电活动，并进行低维表征提取与神经动力学分析。
-  \item 构建循环神经网络（RNN）模型，模拟多脑区完成多种认知决策任务，并研究其网络动力学表征。
-  \item 通过 LoRA 或全参数微调训练大模型，进行多任务持续学习，研究任务之间的组合泛化表征关系。
+  \item 使用小鼠侵入式 Neuropixels 记录数据分析跨脑区的多任务神经表征。
+  \item 构建多脑区 RNN 模型，研究灵活认知中的层级任务表征。
+  \item 通过 LoRA 微调大语言模型的持续学习实验，研究任务表征的组合泛化。
 \end{cvitemize}
 
-\cvitem{2026}{NeuroHorizon：基于分层记忆的神经群体活动长时程预测}
-\cvsubitem{\textit{Submitted to NeurIPS 2026 · Under review}}
+\cvitem{2026}{NeuroHorizon: Long-Horizon Forward Prediction of Neural Population Activity via Autoregressive Decoding with Hierarchical Memory}
+\cvsubitem{Submitted to NeurIPS 2026 · Under review}
 \begin{cvitemize}
   \item 研究神经群体活动的长时程前向预测问题。
-  \item 构建基于事件级 spike tokenization 和分层 tail+segment memory 的自回归编码器-解码器模型。
-  \item 在运动皮层与视觉皮层数据集上评估多步 rollout 的稳定性、可扩展性与泛化能力。
+  \item 开发结合事件级 spike tokenization 与分层 tail+segment memory 的自回归编码器-解码器模型。
+  \item 在运动皮层与视觉皮层数据集上评估多步 rollout 的稳定性、扩展性与泛化能力。
 \end{cvitemize}
 
 \cvsection{项目经历}
-
-\cvitem{2024.09--2025.12}{空间漫步（深圳）科技有限公司\quad 联合创始人-算法负责（休学创业）}
-\cvsubitem{\textit{基于3DGS的实时音频驱动数字人}}
+\cvitem{2024--2025}{联合创始人-算法负责\quad 休学创业}
+\cvsubitem{实时音频驱动交互式数字人}
 \begin{cvitemize}
-  \item 搭建多人球笼多目采集系统，并独立完成多相机内外参校准、颜色校准等前期数据预处理工作。
-  \item 优化人物视频数据处理管线，在 track 算法中引入基于 sapiens 的牙齿分割 segment loss，并清洗统一驱动数据以减少身份不一致和 train-test distribution 问题。
-  \item 在开源 audio2flame 框架基础上重构音频驱动模型，引入 flow matching 和 DiT 提升驱动生动性。
-  \item 以开源 FLAME-based 3DGS 模型为基础，修正单目情况下的相机尺度问题，并通过调整高斯点透明度与区域密度提升重建鲁棒性。
+  \item 休学参与创业，探索实时交互式数字人方向。
+  \item 构建基于 3D Gaussian Splatting（3DGS）的实时音频驱动数字人系统。
+  \item 维护完整算法管线，包括多相机采集校准、3DGS 头部重建和 diffusion-based 音频到表情驱动。
 \end{cvitemize}
 
 \cvitem{2023.06}{清华大学大模型应用设计挑战赛}
-\cvsubitem{\textit{NeuroGPT 项目，92支队伍中获得第四名}}
-\begin{cvitemize}
-  \item 带领队伍设计 NeuroGPT 项目，将神经活动解码出的语义信息借助 LLM 作为信息转换中枢，控制下游应用。
-  \item 项目面向神经活动语义生成与交互式应用联动，重点探索神经表征到应用层控制的转换路径。
-\end{cvitemize}
+\cvsubitem{NeuroGPT 项目，92 支队伍中获得第四名。}
 
 \end{document}
