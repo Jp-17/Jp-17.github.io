@@ -35,25 +35,25 @@
 \emergencystretch=2em
 
 \newcommand{\cvsection}[1]{%
-  \par\vspace{0.55em}
-  \noindent{\large\bfseries #1}\par\vspace{0.15em}\hrule\vspace{0.25em}
+  \par\vspace{0.75em}
+  \noindent{\large\bfseries #1}\par\vspace{0.15em}\hrule\vspace{0.35em}
 }
 
 \newcommand{\cvitem}[2]{%
-  \par\vspace{0.35em}
+  \par\vspace{0.5em}
   \noindent
   \begin{tabularx}{\linewidth}{@{}X r@{}}%
     \textbf{#2} & \textbf{#1}\\%
   \end{tabularx}%
-  \par\vspace{0.05em}
+  \par\vspace{0.1em}
 }
 
-\newcommand{\cvsubitem}[1]{\par\vspace{0.05em}\noindent{\itshape #1}\\[-0.75em]}
+\newcommand{\cvsubitem}[1]{\par\vspace{0.02em}\noindent{\itshape #1}\\[-0.95em]}
 \newenvironment{cvitemize}{%
   \begin{itemize}%
   \setlength{\leftmargin}{1.6em}%
   \setlength{\itemsep}{0pt}%
-  \setlength{\topsep}{0pt}%
+  \setlength{\topsep}{-0.15em}%
   \setlength{\parsep}{0pt}%
   \setlength{\parskip}{0pt}%
 }{\end{itemize}\vspace{-0.25em}}
