@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.3.1)  13 MAY 2026 02:49
+This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.3.1)  13 MAY 2026 04:28
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -451,17 +451,23 @@ Underfull \hbox (badness 10000) in paragraph at lines 70--70
 File: jp-1-revised.png Graphic file (type bmp)
 <jp-1-revised.png>
 
-Underfull \hbox (badness 10000) in paragraph at lines 93--94
+Underfull \hbox (badness 2027) in paragraph at lines 84--84
+[]|\TU/TimesNewRoman(0)/m/n/10.95 Tsinghua University Department of Computer Sc
+ience and Technology Undergraduate
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 94--95
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 101--102
+Underfull \hbox (badness 10000) in paragraph at lines 102--103
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 110--111
+Underfull \hbox (badness 10000) in paragraph at lines 111--112
 
  []
 
@@ -483,7 +489,7 @@ Package rerunfilecheck Info: File `jp-cv_neuro_en.out' has not changed.
 Here is how much of TeX's memory you used:
  11612 strings out of 469709
  232028 string characters out of 5466024
- 696844 words of memory out of 5000000
+ 697855 words of memory out of 5000000
  40112 multiletter control sequences out of 15000+600000
  631044 words of font info for 78 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191

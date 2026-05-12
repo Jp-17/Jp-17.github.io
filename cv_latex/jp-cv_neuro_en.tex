@@ -28,28 +28,28 @@
 \emergencystretch=2em
 
 \newcommand{\cvsection}[1]{%
-  \par\vspace{1.15em}
-  \noindent{\large\bfseries #1}\par\vspace{0.25em}\hrule\vspace{0.75em}
+  \par\vspace{0.75em}
+  \noindent{\large\bfseries #1}\par\vspace{0.15em}\hrule\vspace{0.35em}
 }
 
 \newcommand{\cvitem}[2]{%
-  \par\vspace{1em}
+  \par\vspace{0.5em}
   \noindent
   \begin{tabularx}{\linewidth}{@{}X r@{}}%
     \textbf{#2} & \textbf{#1}\\%
   \end{tabularx}%
-  \par\vspace{0.5em}
+  \par\vspace{0.1em}
 }
 
-\newcommand{\cvsubitem}[1]{\par\vspace{0.25em}\noindent{\itshape #1}\\[-0.4em]}
+\newcommand{\cvsubitem}[1]{\par\vspace{0.02em}\noindent{\itshape #1}\\[-0.95em]}
 \newenvironment{cvitemize}{%
   \begin{itemize}%
   \setlength{\leftmargin}{1.6em}%
-  \setlength{\itemsep}{0.25em}%
-  \setlength{\topsep}{0.25em}%
+  \setlength{\itemsep}{0pt}%
+  \setlength{\topsep}{-0.15em}%
   \setlength{\parsep}{0pt}%
   \setlength{\parskip}{0pt}%
-}{\end{itemize}}
+}{\end{itemize}\vspace{-0.25em}}
 
 \newcommand{\cvphoto}{jp-1-revised.png}
 
@@ -80,13 +80,14 @@
   \end{tabularx}%
   \par\vspace{0.15em}
 }
-\cvitem{2021.08--present}{Tsinghua University\quad PhD Student in Computational Neuroscience\quad Supervisor: Xiaoxuan Jia}
-\cvitem{2017.08--2021.06}{Tsinghua University\quad B.Sc. in Life Sciences\quad Minor in Computer Science}
+\cvitem{2017.08--2021.06}{Tsinghua University\quad School of Life Sciences\quad Bachelor's Degree}
+\cvitem{2018.08--2021.06}{Tsinghua University\quad Department of Computer Science and Technology\quad Undergraduate Minor}
+\cvitem{2021.08--present}{Tsinghua University\quad School of Life Sciences\quad PhD Student in Computational Neuroscience\quad Supervisor: Xiaoxuan Jia}
 \endgroup
 
 \cvsection{Research Interests}
-\noindent\textbf{Keywords:} Brain Foundation Model; Brain Encoding \& Decoding; World Model; Neural Representation.\\[0.25em]
-\noindent\textbf{Current focus:} Large-scale pre-trained models for neural spiking data, neural encoding and decoding, and world models that simulate and understand the world.
+\noindent\textbf{Keywords:} Neural Foundation Model; Neural Encoding \& Decoding; World Model; Neural Representation.\\[0.25em]
+\noindent\textbf{Current focus:} Neural foundation models, exploring how to build neural pre-trained models for neural encoding and decoding research.
 
 \cvsection{Academic Experience}
 \cvitem{2022--2024}{Multi-task Neural Representation Research}
@@ -109,12 +110,14 @@
 \cvitem{2024--2025}{Real-time audio-driven digital human based on 3DGS}
 \cvsubitem{Co-Founder and Algorithm Lead\quad Startup · Leave of absence from PhD}
 \begin{cvitemize}
-  \item Took a leave of absence from PhD study to co-found a startup.
   \item Built a real-time, audio-driven interactive digital human system based on 3D Gaussian Splatting (3DGS).
   \item Maintained the pipeline for capture calibration, 3DGS reconstruction, and audio-to-expression driving.
 \end{cvitemize}
 
 \cvitem{2023.06}{NeuroGPT project}
-\cvsubitem{Tsinghua University LLM Application Design Challenge, 4th place among 94 teams.}
+\cvsubitem{Tsinghua University LLM Application Design Challenge · 4th place / 94 teams}
+\begin{cvitemize}
+  \item Used multimodal large language models as an information relay, decoding neural semantics and mapping them into action/control signals for medical, educational, and entertainment scenarios.
+\end{cvitemize}
 
 \end{document}
