@@ -1,0 +1,102 @@
+% !TEX encoding = UTF-8
+% !TEX program = lualatex
+\documentclass[11pt,a4paper,UTF8,fontset=ubuntu]{ctexart}
+
+\usepackage[a4paper,margin=1.6cm]{geometry}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{tabularx}
+\usepackage{graphicx}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  urlcolor=blue,
+  citecolor=black
+}
+
+\setlist[itemize]{
+  leftmargin=1.6em,
+  itemsep=0.25em,
+  topsep=0.25em
+}
+
+\titleformat{\section}{\large\bfseries}{}{0pt}{}[\titlerule]
+\titlespacing*{\section}{0pt}{1.3em}{0.9em}
+
+\pagestyle{empty}
+\setstretch{1.08}
+
+\newcommand{\cvitem}[2]{%
+  \par\vspace{1em}
+  \noindent
+  \begin{tabularx}{\linewidth}{@{}X r@{}}%
+    \textbf{#2} & \textbf{#1}\\%
+  \end{tabularx}%
+  \par\vspace{0.5em}
+}
+\newcommand{\cvsubitem}[1]{\par\vspace{0.25em}\noindent #1\\[-0.4em]}
+
+\begin{document}
+\vspace*{-1.0cm}
+
+\noindent
+\begin{tabularx}{\linewidth}{@{}X m{2.8cm}@{}}
+  \begin{minipage}[t]{\linewidth}
+    \vspace*{-5.8em}
+    {\LARGE\bfseries 蒋鹏}\\[0.8em]
+    \textbf{电话：}13161911011\\
+    \textbf{邮箱：}\href{mailto:jiang-p21@mails.tsinghua.edu.cn}{jiang-p21@mails.tsinghua.edu.cn}\\
+    % \textbf{主页：}\href{https://jp-17.github.io/}{https://jp-17.github.io/}\\
+  \end{minipage}
+  &
+  \centering\raisebox{3.8em}{\includegraphics[width=2.8cm]{jp.jpg}}
+\end{tabularx}
+\vspace*{-6.0em}
+
+\section*{教育背景}
+\begingroup
+\renewcommand{\cvitem}[2]{%
+  \par\vspace{0.35em}
+  \noindent
+  \begin{tabularx}{\linewidth}{@{}X r@{}}%
+    #2 & \textbf{#1}\\%
+  \end{tabularx}%
+  \par\vspace{0.15em}
+}
+\cvitem{2017.08--2021.06}{清华大学\quad 生命科学学院\quad 学士}
+\cvitem{2018.08--2021.06}{清华大学\quad 计算机科学与技术系\quad 本科辅修}
+\cvitem{2021.08--至今}{清华大学\quad 生命科学学院\quad 博士生-计算神经方向}
+\endgroup
+
+\section*{项目经历}
+
+\cvitem{2025.12--至今}{独立开发者 结束创业-复学前（2026.03）\quad }
+\cvsubitem{\textit{多模态实时交互式Avatar长视频生成模型（研发中）}}
+\begin{itemize}
+  \item 掌握基于causal attention和DMD2构建实时视频生成模型的系列工作的代码实现，包括Causvid, Self-Forcing, LongLive, LiveTalk等；
+  \item 选择LongLive+OmniAvatar作为技术基础开发基于实时可交互的人物长视频生成模型。从OmniAvatar中提取audio模块整合到LongLive中，然后进行轻量级的ODE trajectory训练，让模型初步具备音频驱动人物视频生成的能力；为了让模型具有交互式编辑的能力以及保持clip间的连续性，会引入多模态KV-Recache和使用让Teacher model输入last frame和new prompt以获得更合适的监督信号。
+\end{itemize}
+
+\cvitem{2024.09--2025.12}{空间漫步（深圳）科技有限公司\quad 联合创始人-算法负责（休学创业）}
+\cvsubitem{\textit{基于3DGS的实时音频驱动数字人}}
+\begin{itemize}
+  \item \textbf{人物多目采集系统搭建：}先是合作搭建了一套单人球笼多目采集系统，然后独立完成包括多相机内外参校准/颜色校准等前期数据预处理工作；
+  \item \textbf{人物视频数据处理管线的主要优化：}1. 在track算法中引入基于sapiens进行牙齿分割的segment loss以优化人物牙齿的flame拟合效果；2. 为了解决驱动过程中国中的人物身份不一致问题，将数据进行彻底的清洗和统一，保证重建和驱动所利用的数据在同样的数据分布，避免train-test distribution问题；
+  \item \textbf{基于diffusion的音频驱动模型优化：}以开源的audio2flame驱动模型架构为基础，改成以flowmatching和dit为主体的diffusion model,有效的改进了驱动模型的生动性;
+  \item \textbf{基于3DGS的人物头部重建模型优化：}以开源的基于flame的3DGS模型为基础，纠正了其在单目情况下的相机尺度问题，并通过调整高斯点的透明度和不同区域的密度让3dgs点在mesh上的绑定更鲁棒。
+\end{itemize}
+
+\section*{学术经历}
+\cvitem{2022.03--2024.09}{清华大学\quad 计算神经科学\quad 导师：贾晓轩}
+\cvsubitem{\textit{对大脑和大模型进行多任务学习的神经表征分析比较}}
+\begin{itemize}
+  \item 使用侵入式电极采集小鼠不同视觉脑区神经电活动并进行低维表征提取和神经动力学分析；
+  \item 构建循环神经网络（RNN）模型模拟多脑区完成多种认知决策任务并研究其网络动力学表征；
+  \item 通过对大模型进行lora微调进行多任务的持续学习，来研究任务之间的组合泛化表征关系。
+\end{itemize}
+
+\end{document}

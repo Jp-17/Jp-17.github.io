@@ -1,0 +1,118 @@
+% !TEX encoding = UTF-8
+% !TEX program = xelatex
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[a4paper,margin=1.6cm]{geometry}
+\usepackage{fontspec}
+\usepackage{hyperref}
+\usepackage{setspace}
+\usepackage{tabularx}
+\usepackage{graphicx}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  urlcolor=blue,
+  citecolor=black
+}
+
+\defaultfontfeatures{Ligatures=TeX}
+\setmainfont{Songti SC}
+\setsansfont{PingFang SC}
+
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt
+
+\newcommand{\cvsection}[1]{%
+  \par\vspace{1.05em}%
+  \noindent{\large\bfseries #1}\par\vspace{0.45em}\hrule\vspace{0.85em}%
+}
+\newenvironment{cvitemize}{%
+  \begin{itemize}%
+  \setlength{\itemsep}{0.25em}%
+  \setlength{\topsep}{0.25em}%
+  \setlength{\parskip}{0pt}%
+}{\end{itemize}}
+
+\pagestyle{empty}
+\setstretch{1.08}
+
+\newcommand{\cvitem}[2]{%
+  \par\vspace{1em}
+  \noindent
+  \begin{tabularx}{\linewidth}{@{}X r@{}}%
+    \textbf{#2} & \textbf{#1}\\%
+  \end{tabularx}%
+  \par\vspace{0.5em}
+}
+\newcommand{\cvsubitem}[1]{\par\vspace{0.25em}\noindent #1\\[-0.4em]}
+\newcommand{\cvphoto}{jp-1-revised.png}
+
+\begin{document}
+\vspace*{-1.0cm}
+
+\noindent
+\begin{tabularx}{\linewidth}{@{}X m{2.8cm}@{}}
+  \begin{minipage}[t]{\linewidth}
+    \vspace*{-5.8em}
+    {\LARGE\bfseries 蒋鹏}\\[0.8em]
+    \textbf{电话：}13161911011\\
+    \textbf{邮箱：}\href{mailto:jiang-p21@mails.tsinghua.edu.cn}{jiang-p21@mails.tsinghua.edu.cn}\\
+    \textbf{主页：}\href{https://jp-17.github.io/}{https://jp-17.github.io/}\\
+  \end{minipage}
+  &
+  \centering\raisebox{3.8em}{\includegraphics[width=2.8cm]{\cvphoto}}
+\end{tabularx}
+\vspace*{-6.0em}
+
+\cvsection{教育背景}
+\begingroup
+\renewcommand{\cvitem}[2]{%
+  \par\vspace{0.35em}
+  \noindent
+  \begin{tabularx}{\linewidth}{@{}X r@{}}%
+    #2 & \textbf{#1}\\%
+  \end{tabularx}%
+  \par\vspace{0.15em}
+}
+\cvitem{2017.08--2021.06}{清华大学\quad 生命科学学院\quad 生物科学-学士学位}
+\cvitem{2018.08--2021.06}{清华大学\quad 计算机科学与技术系\quad 计算机应用-辅修}
+\cvitem{2021.08--现在}{清华大学\quad 生命科学学院\quad 计算神经科学博士生}
+\endgroup
+
+\cvsection{学术经历}
+\cvitem{2022.03--2024.09}{清华大学\quad 生命科学学院\quad 导师：贾晓轩}
+\cvsubitem{\textit{大脑与大模型的多任务学习神经表征比较}}
+\begin{cvitemize}
+  \item 使用侵入式 Neuropixels 电极采集小鼠不同视觉脑区的大规模神经电活动，并进行低维表征提取与神经动力学分析。
+  \item 构建循环神经网络（RNN）模型，模拟多脑区完成多种认知决策任务，并研究其网络动力学表征。
+  \item 通过 LoRA 或全参数微调训练大模型，进行多任务持续学习，研究任务之间的组合泛化表征关系。
+\end{cvitemize}
+
+\cvitem{2026}{NeuroHorizon：基于分层记忆的神经群体活动长时程预测}
+\cvsubitem{\textit{Submitted to NeurIPS 2026 · Under review}}
+\begin{cvitemize}
+  \item 研究神经群体活动的长时程前向预测问题。
+  \item 构建基于事件级 spike tokenization 和分层 tail+segment memory 的自回归编码器-解码器模型。
+  \item 在运动皮层与视觉皮层数据集上评估多步 rollout 的稳定性、可扩展性与泛化能力。
+\end{cvitemize}
+
+\cvsection{项目经历}
+
+\cvitem{2024.09--2025.12}{空间漫步（深圳）科技有限公司\quad 联合创始人-算法负责（休学创业）}
+\cvsubitem{\textit{基于3DGS的实时音频驱动数字人}}
+\begin{cvitemize}
+  \item 搭建多人球笼多目采集系统，并独立完成多相机内外参校准、颜色校准等前期数据预处理工作。
+  \item 优化人物视频数据处理管线，在 track 算法中引入基于 sapiens 的牙齿分割 segment loss，并清洗统一驱动数据以减少身份不一致和 train-test distribution 问题。
+  \item 在开源 audio2flame 框架基础上重构音频驱动模型，引入 flow matching 和 DiT 提升驱动生动性。
+  \item 以开源 FLAME-based 3DGS 模型为基础，修正单目情况下的相机尺度问题，并通过调整高斯点透明度与区域密度提升重建鲁棒性。
+\end{cvitemize}
+
+\cvitem{2023.06}{清华大学大模型应用设计挑战赛}
+\cvsubitem{\textit{NeuroGPT 项目，92支队伍中获得第四名}}
+\begin{cvitemize}
+  \item 带领队伍设计 NeuroGPT 项目，将神经活动解码出的语义信息借助 LLM 作为信息转换中枢，控制下游应用。
+  \item 项目面向神经活动语义生成与交互式应用联动，重点探索神经表征到应用层控制的转换路径。
+\end{cvitemize}
+
+\end{document}
