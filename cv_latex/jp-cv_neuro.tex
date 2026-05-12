@@ -35,28 +35,28 @@
 \emergencystretch=2em
 
 \newcommand{\cvsection}[1]{%
-  \par\vspace{1.15em}
-  \noindent{\large\bfseries #1}\par\vspace{0.25em}\hrule\vspace{0.75em}
+  \par\vspace{0.55em}
+  \noindent{\large\bfseries #1}\par\vspace{0.15em}\hrule\vspace{0.25em}
 }
 
 \newcommand{\cvitem}[2]{%
-  \par\vspace{1em}
+  \par\vspace{0.35em}
   \noindent
   \begin{tabularx}{\linewidth}{@{}X r@{}}%
     \textbf{#2} & \textbf{#1}\\%
   \end{tabularx}%
-  \par\vspace{0.5em}
+  \par\vspace{0.05em}
 }
 
-\newcommand{\cvsubitem}[1]{\par\vspace{0.25em}\noindent{\itshape #1}\\[-0.4em]}
+\newcommand{\cvsubitem}[1]{\par\vspace{0.05em}\noindent{\itshape #1}\\[-0.75em]}
 \newenvironment{cvitemize}{%
   \begin{itemize}%
   \setlength{\leftmargin}{1.6em}%
-  \setlength{\itemsep}{0.25em}%
-  \setlength{\topsep}{0.25em}%
+  \setlength{\itemsep}{0pt}%
+  \setlength{\topsep}{0pt}%
   \setlength{\parsep}{0pt}%
   \setlength{\parskip}{0pt}%
-}{\end{itemize}}
+}{\end{itemize}\vspace{-0.25em}}
 
 \newcommand{\cvphoto}{jp-1-revised.png}
 
@@ -94,13 +94,13 @@
 
 \cvsection{研究方向}
 \noindent\textbf{关键词：}Neural Foundation Model，Neural Encoding \& Decoding，World Model，Neural Representation \\[0.25em]
-\noindent\textbf{当前研究：}聚焦neural foundation model的研究，探索如何构建大规模神经预训练模型，并利用其进行神经编码与解码的相关工作。
+\noindent\textbf{当前研究：}聚焦 neural foundation model，探索如何构建神经预训练模型进行神经编码与解码的方向研究。
 
 \cvsection{学术经历}
 \cvitem{2022--2024}{多任务学习的神经表征分析研究}
 \cvsubitem{清华大学\quad 生命科学学院\quad 贾晓轩实验室}
 \begin{cvitemize}
-  \item 借助 PCA/CCA 等表征降维手段，对不同视觉脑区神经活动在低维空间进行可视化，分析小鼠视觉编码的神经动力学特征；
+  \item 借助 PCA/CCA 等表征降维方式，对不同视觉脑区神经活动在低维空间进行可视化，分析小鼠视觉编码的神经动力学特征与脑区间信息传递方式；
   \item 构建 RNN 模型模拟不同脑区完成多种认知任务，并通过 fixed point analysis 来研究网络本身的动力学表征及其完成任务的机制；
   \item 微调训练大语言模型进行多种认知任务的持续学习，通过分析大模型本身的权重和神经元激活特征的稀疏分解，来研究任务的关系是否会呈现出组合泛化的表征形式。
 \end{cvitemize}
@@ -108,16 +108,16 @@
 \cvitem{2026}{NeuroHorizon: Long-Horizon Forward Prediction of Neural Population Activity via Autoregressive Decoding with Hierarchical Memory}
 \cvsubitem{Peng Jiang, Xiaoxuan Jia\textsuperscript{*} · Submitted to NeurIPS 2026 · Under review}
 \begin{cvitemize}
-  \item 明确模型在神经活动的长时程前向预测上不同的评估模式：rollout \& teacher-forcing;
-  \item 开发一个神经活动预测模型，结合 POYO-like spike encoding model 与整合tail+segment 分层memory 机制的 decoder 模块;
-  \item 在多个数据集上评估我们长时程条件下多步 rollout 预测的稳定性，以及模型的 scaling \& generalization 的能力。
+  \item 开发神经活动预测模型，尽量减少模型在神经活动的长时程前向预测上的 rollout prediction 性能衰减;
+  \item 模型利用 POYO-like spike encoding model 进行高分辨率的神经信息编码， 同时在 decoder 侧结合 tail+segment 的分层记忆机制的减少预测性能在长时程情况下的衰减;
+  \item 在多个数据集上评估模型的长时程多步 rollout 预测神经活动的稳定性，以及模型的 scaling \& generalization 的能力。
 \end{cvitemize}
 
 \cvsection{项目经历}
 \cvitem{2024--2025}{基于 3DGS 的实时音频驱动数字人}
 \cvsubitem{空间漫步（深圳）科技有限公司\quad 联合创始人-算法负责(休学创业)}
 \begin{cvitemize}
-  \item 基于单目视频进行人物3D模型重建的优化，包括 flame tracking 和 3dgs model的优化；
+  \item 基于单目视频进行人物 3D 模型重建的优化，包括 flame tracking 和 3dgs model 的优化；
   \item 改进基于 diffusion model 为框架的音频驱动模型，提高驱动模型的生动性和准确性。
 \end{cvitemize}
 
