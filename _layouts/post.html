@@ -4,26 +4,14 @@ layout: default
 
 <article>
   <header class="post-header">
-    <h1 class="post-title post-title-cn">{{ page.title_cn | default: page.title }}</h1>
-    <h1 class="post-title post-title-en">{{ page.title_en | default: page.title }}</h1>
+    <h1 class="post-title">{{ page.title }}</h1>
     <div class="post-meta">
       <div class="post-meta-text">
         <span class="post-date-display">{{ page.date | date: "%Y-%m-%d" }}</span>
-        {% if page.author_note_cn or page.author_note_en %}
-          {% if page.bilingual %}
-          <span class="post-note-display lang-cn">{{ page.author_note_cn }}</span>
-          <span class="post-note-display lang-en">{{ page.author_note_en }}</span>
-          {% else %}
-          <span class="post-note-display">{{ page.author_note_cn | default: page.author_note_en }}</span>
-          {% endif %}
+        {% if page.author_note %}
+        <span class="post-note-display">{{ page.author_note }}</span>
         {% endif %}
       </div>
-      {% if page.bilingual %}
-      <div class="lang-toggle" role="group" aria-label="Language selector">
-        <button class="lang-btn" data-lang="cn" onclick="setLang('cn')">CN</button>
-        <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
-      </div>
-      {% endif %}
     </div>
   </header>
 
@@ -36,18 +24,6 @@ layout: default
 
 <script>
 (function () {
-  function getCurrentLang() {
-    if (document.querySelector('.lang-cn.active')) return 'cn';
-    if (document.querySelector('.lang-en.active')) return 'en';
-    return null;
-  }
-
-  function getHeadingContainer() {
-    var lang = getCurrentLang();
-    if (lang) return document.querySelector('.lang-' + lang + '.active');
-    return document.querySelector('.post-body');
-  }
-
   function ensureId(el, idx) {
     if (!el.id) {
       var base = el.textContent.trim()
@@ -62,7 +38,7 @@ layout: default
   function buildTOC() {
     var toc = document.getElementById('post-toc');
     if (!toc) return;
-    var container = getHeadingContainer();
+    var container = document.querySelector('.post-body');
     if (!container) return;
 
     var headings = Array.prototype.slice.call(container.querySelectorAll('h2, h3'));
@@ -71,8 +47,7 @@ layout: default
     toc.style.display = '';
     headings.forEach(function (h, i) { ensureId(h, i); });
 
-    var label = getCurrentLang() === 'en' ? 'Contents' : '目录';
-    var html = '<span class="post-toc-label">' + label + '</span><ul class="post-toc-list">';
+    var html = '<span class="post-toc-label">Contents</span><ul class="post-toc-list">';
     headings.forEach(function (h) {
       var cls = h.tagName === 'H3' ? ' toc-h3' : '';
       html += '<li class="toc-item' + cls + '"><a href="#' + h.id + '">'
@@ -82,22 +57,9 @@ layout: default
     toc.innerHTML = html;
   }
 
-  window.rebuildTOC = buildTOC;
-
-  // Non-bilingual posts: build on load (bilingual posts: lang-toggle.js will call rebuildTOC)
-  if (!document.querySelector('.lang-cn, .lang-en')) {
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', buildTOC);
-    } else {
-      buildTOC();
-    }
-  }
+  buildTOC();
 })();
 </script>
-
-{% if page.bilingual %}
-<script src="{{ '/assets/js/lang-toggle.js' | relative_url }}"></script>
-{% endif %}
 
 {% if page.math %}
 <script>

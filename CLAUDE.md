@@ -13,9 +13,8 @@
 - **主要文件结构**：
   - `_config.yml` — Jekyll 核心配置（permalink / plugins 等）
   - `_layouts/default.html` — 基础布局（导航栏 + 页脚）
-  - `_layouts/post.html` — 博客文章布局（含 CN/EN 切换；`math: true` 时加载 MathJax）
+  - `_layouts/post.html` — 博客文章布局（含英文目录，`math: true` 时加载 MathJax）
   - `assets/css/style.scss` — 全站样式（自定义，不依赖外部框架）
-  - `assets/js/lang-toggle.js` — 博客 CN/EN 语言切换逻辑
   - `index.html` — About Me 主页
   - `blog.html` — 博客列表页（permalink: /blog/）
   - `_posts/` — 博客文章（文件名格式：`YYYY-MM-DD-slug.md`）
@@ -73,33 +72,17 @@ which bundle
 新增博客文章时：
 
 1. 文件放在 `_posts/` 目录，命名格式：`YYYY-MM-DD-slug.md`
-2. Front matter 必须包含以下字段：
+2. 文章正文使用英文 Markdown。Front matter 示例：
 
 ```yaml
 ---
 layout: post
-title: "英文标题（作为 slug 和 SEO 用）"
-title_cn: "中文标题"
-title_en: "English Title"
+title: "English Title"
 date: YYYY-MM-DD
-bilingual: true    # 若为双语文章则设为 true；纯中文/英文文章可省略
 math: true         # 若文章含 LaTeX 公式则设为 true，会加载 MathJax
+author_note: "Optional note shown below the date"
 ---
 ```
-
-1. 双语文章内容结构：
-
-```markdown
-<div class="lang-cn" markdown="1">
-（中文内容，支持完整 Markdown）
-</div>
-
-<div class="lang-en" markdown="1">
-（English content）
-</div>
-```
-
-1. 语言切换由 `assets/js/lang-toggle.js` 自动处理，默认显示 CN，用户选择会保存到 `localStorage`。
 
 ---
 

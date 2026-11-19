@@ -13,7 +13,7 @@ permalink: /blog/
   <li class="post-list-item">
     <span class="post-list-date">{{ post.date | date: "%Y-%m-%d" }}</span>
     <div class="post-list-title">
-      <a href="{{ post.url | relative_url }}">{{ post.title_cn | default: post.title }}{% if post.title_en %}<span class="title-sub">/ {{ post.title_en }}</span>{% endif %}</a>
+      <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
     </div>
   </li>
   {% endfor %}

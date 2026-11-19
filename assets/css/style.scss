@@ -331,13 +331,6 @@ section h2 {
   color: var(--accent);
 }
 
-.title-sub {
-  font-weight: 400;
-  font-size: 0.85rem;
-  color: var(--fg-muted);
-  margin-left: 0.3em;
-}
-
 /* =====================================================
    Blog Post TOC
    ===================================================== */
@@ -426,44 +419,6 @@ section h2 {
   font-size: 0.78rem;
   color: var(--fg-muted);
   line-height: 1.45;
-}
-
-/* Language toggle buttons */
-.lang-toggle {
-  display: flex;
-  gap: 0;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.lang-btn {
-  background: var(--bg);
-  border: none;
-  padding: 0.3rem 0.75rem;
-  font-size: 0.8rem;
-  font-weight: 500;
-  cursor: pointer;
-  color: var(--fg-muted);
-  font-family: var(--font);
-}
-.lang-btn:hover {
-  background: var(--bg-subtle);
-  color: var(--fg);
-}
-.lang-btn.active {
-  background: var(--accent);
-  color: #fff;
-}
-
-/* CN/EN content blocks */
-.lang-cn,
-.lang-en {
-  display: none;
-}
-.lang-cn.active,
-.lang-en.active {
-  display: block;
 }
 
 .post-body {
